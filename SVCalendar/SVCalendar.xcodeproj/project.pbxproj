@@ -32,6 +32,8 @@
 		228311A01E1ECD05005CC4F4 /* SVCalendarHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2283119C1E1ECD05005CC4F4 /* SVCalendarHeaderView.xib */; };
 		228311A11E1ECD05005CC4F4 /* SVCalendarTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2283119D1E1ECD05005CC4F4 /* SVCalendarTimeView.swift */; };
 		228311A21E1ECD05005CC4F4 /* SVCalendarTimeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2283119E1E1ECD05005CC4F4 /* SVCalendarTimeView.xib */; };
+		22D5565D1E22850F00A95F18 /* SVCalendarManager.swift in Headers */ = {isa = PBXBuildFile; fileRef = 228311871E1ECC76005CC4F4 /* SVCalendarManager.swift */; settings = {ATTRIBUTES = (Public, ); }; };
+		22D5565E1E22851200A95F18 /* SVCalendarService.swift in Headers */ = {isa = PBXBuildFile; fileRef = 228311881E1ECC76005CC4F4 /* SVCalendarService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -276,6 +278,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2283115B1E1ECAD2005CC4F4 /* SVCalendar.h in Headers */,
+				22D5565D1E22850F00A95F18 /* SVCalendarManager.swift in Headers */,
+				22D5565E1E22851200A95F18 /* SVCalendarService.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

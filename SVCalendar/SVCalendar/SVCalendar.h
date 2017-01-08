@@ -16,4 +16,3 @@ FOUNDATION_EXPORT const unsigned char SVCalendarVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SVCalendar/PublicHeader.h>
 
-
