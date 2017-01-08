@@ -31,6 +31,8 @@ public struct SVCalendarType: OptionSet, Hashable {
 public class SVCalendarConfiguration {
     public static let shared = SVCalendarConfiguration()
     
+    public init() {}
+    
     public struct Style {
         var container = SVCalendarStyle(for: .container)
         var calendar = SVCalendarStyle(for: .calendar)

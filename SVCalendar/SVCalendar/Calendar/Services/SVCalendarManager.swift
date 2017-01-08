@@ -14,9 +14,9 @@ import UIKit
  This class help easy set up calendar by default
  */
 
-public class SVCalendarManager {    
+final public class SVCalendarManager {
     public class var calendarController: SVCalendarViewController {
-        return SVCalendarViewController(nibName: nil, bundle: nil)
+        return SVCalendarViewController()
     }
     
     public class var bundleIdentifier: String {

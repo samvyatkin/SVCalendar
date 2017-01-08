@@ -26,6 +26,14 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     public var selectedDate: Date?
 
     // MARK: - Controller LifeCycle
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         configAppearance()
