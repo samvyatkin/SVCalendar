@@ -20,7 +20,11 @@ final public class SVCalendarManager {
     }
     
     public class var bundleIdentifier: String {
-        return "\(Bundle.main.infoDictionary?[kCFBundleNameKey as String] as! String)."
+        guard let bundle = Bundle(identifier: "SVCalendar") else {
+            return "SVCalendar."
+        }
+        
+        return "\(bundle.infoDictionary?[kCFBundleNameKey as String] as! String)."
     }
     
     public class func addCalendarTo(parentController: UIViewController, withConstraints constraints: [NSLayoutConstraint]?) -> SVCalendarViewController {
