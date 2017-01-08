@@ -15,15 +15,15 @@ import UIKit
  */
 
 public class SVCalendarManager {    
-    static var calendarController: SVCalendarViewController {
+    public static var calendarController: SVCalendarViewController {
         return SVCalendarViewController(nibName: nil, bundle: nil)
     }
     
-    static var bundleIdentifier: String {
+    public static var bundleIdentifier: String {
         return "\(Bundle.main.infoDictionary?[kCFBundleNameKey as String] as! String)."
     }
     
-    static func addCalendarTo(parentController: UIViewController, withConstraints constraints: [NSLayoutConstraint]?) -> SVCalendarViewController {
+    public static func addCalendarTo(parentController: UIViewController, withConstraints constraints: [NSLayoutConstraint]?) -> SVCalendarViewController {
         let calendar = SVCalendarManager.calendarController
         
         parentController.addChildViewController(calendar)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Date {
+public extension Date {
     static func formatter(_ format: String) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.locale = Locale.current

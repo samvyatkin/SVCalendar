@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
+public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
     fileprivate lazy var calendarView = SVCollectionView()
         
     fileprivate let service = SVCalendarService(types: SVCalendarConfiguration.shared.types)
@@ -19,19 +19,19 @@ class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SV
     fileprivate var switcherView: SVCalendarSwitcherView?
     fileprivate var navigationView: SVCalendarNavigationView!
     
-    var dates = [SVCalendarDate]()
-    var headerTitles = [String]()
+    public var dates = [SVCalendarDate]()
+    public var headerTitles = [String]()
     
-    weak var delegate: SVCalendarDelegate?
-    var selectedDate: Date?
+    public weak var delegate: SVCalendarDelegate?
+    public var selectedDate: Date?
 
     // MARK: - Controller LifeCycle
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         configAppearance()
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         clearData()
         super.didReceiveMemoryWarning()
     }
@@ -194,13 +194,13 @@ class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SV
     }
     
     // MARK: - Calendar Switcher
-    func didSelectType(_ type: SVCalendarType) {
+    public func didSelectType(_ type: SVCalendarType) {
         self.updateCalendarLayout(type: type)
         self.updateCalendarData(type: type)
     }
     
     // MARK: - Calendar Navigation
-    func didChangeNavigationDate(direction: SVCalendarNavigationDirection) -> String? {
+    public func didChangeNavigationDate(direction: SVCalendarNavigationDirection) -> String? {
         if direction == .reduce {
             self.service.updateDate(for: .month, isDateIncrease: false)
         }

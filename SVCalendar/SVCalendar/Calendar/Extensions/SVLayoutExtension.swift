@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-extension NSLayoutConstraint {
+public extension NSLayoutConstraint {
     
     class func topConst(item: Any, toItem: Any, value: CGFloat) -> NSLayoutConstraint {
         return NSLayoutConstraint(item: item, attribute: .top, relatedBy: .equal, toItem: toItem, attribute: .top, multiplier: 1.0, constant: value)

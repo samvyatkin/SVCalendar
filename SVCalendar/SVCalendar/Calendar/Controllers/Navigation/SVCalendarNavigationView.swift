@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum SVCalendarNavigationDirection {
+public enum SVCalendarNavigationDirection {
     case reduce, increase
 }
 

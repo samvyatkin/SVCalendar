@@ -18,37 +18,37 @@ public enum SVCalendarControlls {
     case container, calendar, switcher, navigation, header1, header2, time, cell
 }
 
-struct SVCalendarStyle {
-    struct Background {
+public  struct SVCalendarStyle {
+    public struct Background {
         var normalColor: UIColor?
         var selectedColor: UIColor?
     }
     
-    struct Button {
-        var normalColor: UIColor?
-        var selectedColor: UIColor?
-        var radius: CGFloat = 0
-    }
-    
-    struct Layer {
+    public struct Button {
         var normalColor: UIColor?
         var selectedColor: UIColor?
         var radius: CGFloat = 0
     }
     
-    struct Text {
+    public struct Layer {
+        var normalColor: UIColor?
+        var selectedColor: UIColor?
+        var radius: CGFloat = 0
+    }
+    
+    public struct Text {
         var font: UIFont?
         var normalColor: UIColor?
         var selectedColor: UIColor?
         var disabledColor: UIColor?
     }
     
-    var background: Background
-    var button: Button
-    var layer: Layer
-    var text: Text
+    public var background: Background
+    public var button: Button
+    public var layer: Layer
+    public var text: Text
     
-    init(for control: SVCalendarControlls) {
+    public init(for control: SVCalendarControlls) {
         self.background = Background()
         self.button = Button()
         self.layer = Layer()

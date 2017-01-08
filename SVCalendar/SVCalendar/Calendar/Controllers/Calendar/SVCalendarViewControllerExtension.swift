@@ -12,15 +12,15 @@ import UIKit
 extension SVCalendarViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: - Collection DataSource
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dates.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch kind {
         case SVCalendarHeaderSection1:
@@ -62,7 +62,7 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
         let model = dates[indexPath.item]
                 
@@ -75,7 +75,7 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     }
     
     // MARK: - Collection Delegate
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
         let model = dates[indexPath.item]
         

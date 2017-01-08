@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol SVCalendarDelegate: class {
+public protocol SVCalendarDelegate: class {
     func didSelectDate(_ date: Date)
     func didChangeDateDimension(_ type: SVCalendarType)
 }
 
-protocol SVCalendarNavigationDelegate: class {
+public protocol SVCalendarNavigationDelegate: class {
     func didChangeNavigationDate(direction: SVCalendarNavigationDirection) -> String?
 }

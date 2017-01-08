@@ -8,10 +8,14 @@
 
 import Foundation
 
-struct SVCalendarType: OptionSet, Hashable {
+public struct SVCalendarType: OptionSet, Hashable {
     public let rawValue: Int
     public var hashValue: Int {
         return rawValue
+    }
+    
+    public init(rawValue: Int) {
+        self.rawValue = rawValue
     }
     
     static let all = SVCalendarType(rawValue: 0)
@@ -21,13 +25,13 @@ struct SVCalendarType: OptionSet, Hashable {
     static let quarter = SVCalendarType(rawValue: 1 << 3)
     static let year = SVCalendarType(rawValue: 1 << 4)
     
-    static let defaultTypes = [SVCalendarType.day, SVCalendarType.month, SVCalendarType.year]    
+    static let defaultTypes = [SVCalendarType.day, SVCalendarType.month, SVCalendarType.year]
 }
 
 public class SVCalendarConfiguration {
-    static let shared = SVCalendarConfiguration()
+    public static let shared = SVCalendarConfiguration()
     
-    struct Style {
+    public struct Style {
         var container = SVCalendarStyle(for: .container)
         var calendar = SVCalendarStyle(for: .calendar)
         var navigation = SVCalendarStyle(for: .navigation)
@@ -38,18 +42,18 @@ public class SVCalendarConfiguration {
         var cell = SVCalendarStyle(for: .cell)
     }
     
-    var types: [SVCalendarType] {
+    public var types: [SVCalendarType] {
         return [SVCalendarType.month]
     }
-    var minYear: Int = 2000
-    var maxYear: Int = 2020
+    public var minYear: Int = 2000
+    public var maxYear: Int = 2020
     
-    var styles = Style()
+    public var styles = Style()
     
-    var isStyleDefault = true
-    var isSwitcherVisible = true
-    var isNavigationVisible = true
-    var isHeaderSection1Visible = true
-    var isHeaderSection2Visible = false
-    var isTimeSectionVisible = false
+    public var isStyleDefault = true
+    public var isSwitcherVisible = true
+    public var isNavigationVisible = true
+    public var isHeaderSection1Visible = true
+    public var isHeaderSection2Visible = false
+    public var isTimeSectionVisible = false
 }

@@ -13,7 +13,7 @@ import Foundation
  This struct keep info for special date
  */
 
-protocol SVCalendarDateProtocol {
+public protocol SVCalendarDateProtocol {
     var isCurrent: Bool { get }
     var isEnabled: Bool { get }
     var isWeekend: Bool { get }
@@ -25,14 +25,14 @@ protocol SVCalendarDateProtocol {
 }
 
 public struct SVCalendarDate: SVCalendarDateProtocol {
-    var isCurrent: Bool = false
-    var isEnabled: Bool = true
-    var isWeekend: Bool = false
-    var title: String
-    var value: Date
-    var type: SVCalendarType
+    public var isCurrent: Bool = false
+    public var isEnabled: Bool = true
+    public var isWeekend: Bool = false
+    public var title: String
+    public var value: Date
+    public var type: SVCalendarType
     
-    init(isEnabled: Bool, isCurrent: Bool, isWeekend: Bool, title: String, value: Date, type: SVCalendarType) {
+    public init(isEnabled: Bool, isCurrent: Bool, isWeekend: Bool, title: String, value: Date, type: SVCalendarType) {
         self.isEnabled = isEnabled
         self.isCurrent = isCurrent
         self.isWeekend = isWeekend
