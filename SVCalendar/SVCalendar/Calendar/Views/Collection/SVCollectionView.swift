@@ -37,23 +37,23 @@ class SVCollectionView: UICollectionView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = calendarStyle.background.normalColor
         
-        self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: Bundle.main),
+        self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: SVCalendarManager.bundle!),
                       forCellWithReuseIdentifier: SVCalendarViewBaseCell.identifier)
         
         if self.config.isHeaderSection1Visible {
-            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: Bundle.main),
+            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection1,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
         if self.config.isHeaderSection2Visible {
-            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: Bundle.main),
+            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection2,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
         if self.config.isTimeSectionVisible {
-            self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: Bundle.main),
+            self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarTimeSection,
                           withReuseIdentifier: SVCalendarTimeView.identifier)
         }

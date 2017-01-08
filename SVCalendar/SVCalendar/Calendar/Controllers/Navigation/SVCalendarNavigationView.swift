@@ -39,7 +39,7 @@ class SVCalendarNavigationView: UIView {
     
     // MARK: - Object LifeCycle
     static func navigation(delegate: SVCalendarNavigationDelegate?, title: String?) -> SVCalendarNavigationView {
-        let nib = UINib(nibName: SVCalendarNavigationView.identifier, bundle: Bundle.main)
+        let nib = UINib(nibName: SVCalendarNavigationView.identifier, bundle: SVCalendarManager.bundle!)
         let view = nib.instantiate(withOwner: nil, options: nil).first as! SVCalendarNavigationView
         
         view.delegate = delegate

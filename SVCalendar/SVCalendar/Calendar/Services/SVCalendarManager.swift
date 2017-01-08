@@ -19,8 +19,12 @@ final public class SVCalendarManager {
         return SVCalendarViewController()
     }
     
+    public class var bundle: Bundle? {
+        return Bundle(identifier: "SVCalendar")
+    }
+    
     public class var bundleIdentifier: String {
-        guard let bundle = Bundle(identifier: "SVCalendar") else {
+        guard let bundle = SVCalendarManager.bundle else {
             return "SVCalendar."
         }
         
