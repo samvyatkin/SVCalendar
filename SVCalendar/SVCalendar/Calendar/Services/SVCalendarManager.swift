@@ -19,8 +19,8 @@ final public class SVCalendarManager {
         return SVCalendarViewController()
     }
     
-    public class var bundle: Bundle? {
-        return Bundle(identifier: "Semyon-Vyatkin.SVCalendar")
+    public class var bundle: Bundle? {                
+        return Bundle(for: self)
     }
     
     public class var bundleIdentifier: String {
