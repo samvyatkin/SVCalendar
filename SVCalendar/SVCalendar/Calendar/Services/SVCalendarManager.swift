@@ -20,7 +20,7 @@ final public class SVCalendarManager {
     }
     
     public class var bundle: Bundle? {
-        return Bundle(identifier: "SVCalendar")
+        return Bundle(identifier: "Semyon-Vyatkin.SVCalendar")
     }
     
     public class var bundleIdentifier: String {
