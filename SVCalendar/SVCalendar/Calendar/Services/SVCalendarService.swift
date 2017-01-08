@@ -13,7 +13,7 @@ import Foundation
  This class contains all logic which will creates calendar with different dimensions (e.g. day, week, month, quarter and year)
 */
 
-struct SVCalendarDateFormat {
+public struct SVCalendarDateFormat {
     static let short = "dd.MM.yyyy"
     static let full = "dd EEEE, MMMM yyyy"
     static let monthYear = "MMMM yyyy"
