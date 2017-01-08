@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
     s.homepage = 'https://github.com/S7Vyto/SVCalendar'
     s.license = { :type => 'Apache-2.0', :file => 'LICENSE' }
     s.author = { 'Sam Vyatkin' => 'samvyto@gmail.com' }
-    s.source = { :git => 'https://github.com/S7Vyto/SVCalendar.git', :tag => s.version.to_s }    
+    s.source = { :git => 'https://github.com/S7Vyto/SVCalendar.git', :tag => '#{s.version}' }    
     s.requires_arc = true
     s.ios.deployment_target = '9.3'
     s.source_files = 'SVCalendar/*'
