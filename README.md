@@ -1,5 +1,5 @@
 # SVCalendar
-Custom calendar for iOS
+Custom calendar for iOS <br>
 Stable release - <b> 1.0.6 </b>
 
 # Installation
