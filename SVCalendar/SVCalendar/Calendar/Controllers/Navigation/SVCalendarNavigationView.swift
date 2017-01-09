@@ -15,20 +15,22 @@ public enum SVCalendarNavigationDirection {
 class SVCalendarNavigationView: UIView {
     @IBOutlet weak var reduceButton: UIButton!
     @IBOutlet weak var increaseButton: UIButton!
-    @IBOutlet weak var dateTitle: UILabel! {
-        didSet {
-            dateTitle.textColor = self.style.text.normalColor
-            dateTitle.font = self.style.text.font
-        }
-    }
+    @IBOutlet weak var dateTitle: UILabel!
     
     static var identifier: String {        
         return NSStringFromClass(SVCalendarNavigationView.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
     }
     
-    fileprivate let style = SVCalendarConfiguration.shared.styles.navigation
     fileprivate weak var delegate: SVCalendarNavigationDelegate?
     
+    var style: SVStyleProtocol? {
+        didSet {
+            if dateTitle != nil {
+                dateTitle.textColor = self.style?.text.normalColor
+                dateTitle.font = self.style?.text.font
+            }
+        }
+    }
     var title: String? {
         didSet {
             if dateTitle != nil {
@@ -38,11 +40,12 @@ class SVCalendarNavigationView: UIView {
     }
     
     // MARK: - Object LifeCycle
-    static func navigation(delegate: SVCalendarNavigationDelegate?, title: String?) -> SVCalendarNavigationView {
+    static func navigation(delegate: SVCalendarNavigationDelegate?, style: SVStyleProtocol, title: String?) -> SVCalendarNavigationView {
         let nib = UINib(nibName: SVCalendarNavigationView.identifier, bundle: SVCalendarManager.bundle!)
         let view = nib.instantiate(withOwner: nil, options: nil).first as! SVCalendarNavigationView
         
         view.delegate = delegate
+        view.style = style
         view.title = title
         
         return view
@@ -60,11 +63,13 @@ class SVCalendarNavigationView: UIView {
     // MARK: - Config Appearance
     fileprivate func configApperance() {        
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = self.style.background.normalColor
+        self.backgroundColor = self.style?.background.normalColor
     }
     
     // MARK: - Navigation Methods
     fileprivate func clearData() {
+        self.style = nil
+        self.title = nil
         self.delegate = nil
     }
     

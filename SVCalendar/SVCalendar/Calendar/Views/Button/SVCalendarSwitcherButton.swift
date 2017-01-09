@@ -9,22 +9,23 @@
 import UIKit
 
 class SVCalendarSwitcherButton: UIButton {
-    fileprivate let style = SVCalendarConfiguration.shared.styles.switcher
+    fileprivate let style: SVSwitcherStyle
     fileprivate let text: String
     
     // MARK: - Button LifeCycle
     override var isSelected: Bool {
         didSet {
-            updateSelectionColor(isSelected)
+            self.updateSelectionColor(isSelected)
         }
     }
     
-    init(withText text: String) {
+    init(style: SVSwitcherStyle, for text: String) {
+        self.style = style
         self.text = text
         super.init(frame: CGRect.zero)
         
-        configAppearance()
-        configButtonData()
+        self.configAppearance()
+        self.configButtonData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,14 +34,14 @@ class SVCalendarSwitcherButton: UIButton {
     
     // MARK: - Config Appearance
     fileprivate func configAppearance() {
-        self.titleLabel?.font = style.text.font
-        
-        self.setTitleColor(style.text.normalColor, for: .normal)
-        self.setTitleColor(style.text.selectedColor, for: .selected)
+        self.titleLabel?.font = self.style.text.font
+
+        self.setTitleColor(self.style.text.normalColor, for: .normal)
+        self.setTitleColor(self.style.text.selectedColor, for: .selected)
         
         self.layer.isOpaque = true
-        self.layer.cornerRadius = style.layer.radius
-        self.layer.backgroundColor = style.button.normalColor?.cgColor
+        self.layer.cornerRadius = self.style.radius
+        self.layer.backgroundColor = self.style.button.normalColor.cgColor
     }
 
     fileprivate func configButtonData() {
@@ -49,7 +50,7 @@ class SVCalendarSwitcherButton: UIButton {
     
     // MARK: - Buttom Methods
     fileprivate func updateSelectionColor(_ isSelected: Bool) {
-        self.layer.backgroundColor = isSelected ? style.button.selectedColor?.cgColor : style.button.normalColor?.cgColor
+        self.layer.backgroundColor = isSelected ? self.style.button.selectedColor.cgColor : self.style.button.normalColor.cgColor
         self.layer.opacity = isSelected ? 0.8 : 1.0
     }
 }

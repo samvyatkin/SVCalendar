@@ -19,7 +19,7 @@ enum SVCalendarComponents {
     case defaultLabel(with: String)
     case defaultButton(with: String)
     case cellLabel(with: String)
-    case switcherButton(with: String)
+    case switcherButton(style: SVSwitcherStyle, with: String)
     
     func value() -> Any {
         switch self {
@@ -46,8 +46,8 @@ enum SVCalendarComponents {
             
             return label
         
-        case let .switcherButton(title):
-            return SVCalendarSwitcherButton(withText: title)
+        case let .switcherButton(style, title):
+            return SVCalendarSwitcherButton(style: style, for: title)
         }
     }
 }

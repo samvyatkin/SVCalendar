@@ -10,15 +10,16 @@ import UIKit
 
 class SVCollectionView: UICollectionView {
     fileprivate let calendarLayout = SVCalendarFlowLayout(direction: SVCalendarFlowLayoutDirection.vertical)
-    fileprivate let calendarStyle = SVCalendarConfiguration.shared.styles.calendar
-    fileprivate let config = SVCalendarConfiguration.shared
+    fileprivate let calendarConfig: SVCalendarConfiguration
     
     var flowLayout: SVCalendarFlowLayout {
         return self.calendarLayout
     }
     
     // MARK: - View LifeCycle
-    init() {
+    init(config: SVCalendarConfiguration) {
+        self.calendarConfig = config
+        
         super.init(frame: CGRect.zero, collectionViewLayout: self.calendarLayout)                
         self.configAppearance()        
     }
@@ -35,24 +36,24 @@ class SVCollectionView: UICollectionView {
     // MARK: - View Appearance
     fileprivate func configAppearance() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = calendarStyle.background.normalColor
+        self.backgroundColor = self.calendarConfig.style.background.normalColor
         
         self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: SVCalendarManager.bundle!),
                       forCellWithReuseIdentifier: SVCalendarViewBaseCell.identifier)
         
-        if self.config.isHeaderSection1Visible {
+        if self.calendarConfig.isHeaderSection1Visible {
             self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection1,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
-        if self.config.isHeaderSection2Visible {
+        if self.calendarConfig.isHeaderSection2Visible {
             self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection2,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
-        if self.config.isTimeSectionVisible {
+        if self.calendarConfig.isTimeSectionVisible {
             self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: SVCalendarManager.bundle!),
                           forSupplementaryViewOfKind: SVCalendarTimeSection,
                           withReuseIdentifier: SVCalendarTimeView.identifier)

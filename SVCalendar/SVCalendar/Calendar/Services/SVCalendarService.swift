@@ -35,6 +35,9 @@ class SVCalendarService {
     }
     
     fileprivate let types: [SVCalendarType]
+    fileprivate let minYear: Int
+    fileprivate let maxYear: Int
+    
     fileprivate lazy var calendar: Calendar = {
         var calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         calendar.locale = Locale.current
@@ -62,12 +65,13 @@ class SVCalendarService {
     }
     
     // MARK: - Calendar Brain LifeCycle
-    init(types: [SVCalendarType]) {
+    init(types: [SVCalendarType], minYear: Int, maxYear: Int) {
         self.types = types
+        self.minYear = minYear
+        self.maxYear = maxYear
         self.visibleDate = currentDate
         
-        updateCalendarDates()
-        updateCaledarTitles()
+        self.configurate()
     }
     
     deinit {
@@ -75,6 +79,12 @@ class SVCalendarService {
     }
     
     // MARK: - Calendar Methods
+    func configurate() {
+        self.removeAllDates()
+        self.updateCalendarDates()
+        self.updateCaledarTitles()
+    }
+    
     fileprivate func updateCalendarDates() {
         if types.contains(SVCalendarType.all) {
             calendarDates[.year] = configYearDates()
@@ -213,10 +223,10 @@ class SVCalendarService {
     
     fileprivate func configYearDates() -> [SVCalendarDate] {
         var beginYearDate = calendar.date(from: yearDateComponents(from: visibleDate,
-                                                                   for: SVCalendarConfiguration.shared.minYear))
+                                                                   for: self.minYear))
         
         let endYearDate = calendar.date(from: yearDateComponents(from: visibleDate,
-                                                                 for: SVCalendarConfiguration.shared.maxYear + 1))
+                                                                 for: self.maxYear + 1))
         
         var dates = [SVCalendarDate]()
         while beginYearDate!.compare(endYearDate!) != .orderedSame {

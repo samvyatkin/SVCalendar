@@ -9,15 +9,13 @@
 import UIKit
 
 public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
-    fileprivate lazy var calendarView = SVCollectionView()
-        
-    fileprivate let service = SVCalendarService(types: SVCalendarConfiguration.shared.types)
-    fileprivate let config = SVCalendarConfiguration.shared
-    
-    fileprivate let style = SVCalendarConfiguration.shared.styles.container
+    fileprivate let calendarView: SVCollectionView
+    fileprivate let service: SVCalendarService
     
     fileprivate var switcherView: SVCalendarSwitcherView?
     fileprivate var navigationView: SVCalendarNavigationView!
+    
+    public let config: SVConfiguration
     
     public var dates = [SVCalendarDate]()
     public var headerTitles = [String]()
@@ -26,7 +24,14 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     public var selectedDate: Date?
 
     // MARK: - Controller LifeCycle
-    public init() {
+    public init(config: SVConfiguration?) {
+        self.config = config ?? SVConfiguration()
+        self.calendarView = SVCollectionView(config: self.config.calendar)
+        self.service = SVCalendarService(types: self.config.calendar.types,
+                                         minYear: self.config.calendar.minYear,
+                                         maxYear: self.config.calendar.maxYear)
+        
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,16 +41,16 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        configAppearance()
+        self.configAppearance()
     }
 
     override public func didReceiveMemoryWarning() {
-        clearData()
+        self.clearData()
         super.didReceiveMemoryWarning()
     }
     
     deinit {
-        clearData()
+        self.clearData()
     }
     
     // MARK: - Configurate Appearance
@@ -59,7 +64,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     
     fileprivate func configParentView() {        
         self.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.backgroundColor = style.background.normalColor
+        self.view.backgroundColor = self.config.container.style.background.normalColor
     }
     
     fileprivate func configCalendarView() {        
@@ -73,8 +78,9 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     }
     
     fileprivate func configCalendarSwitcher() {
-        if self.config.isSwitcherVisible {
-            self.switcherView = SVCalendarSwitcherView(types: config.types,
+        if self.config.calendar.isSwitcherVisible {
+            self.switcherView = SVCalendarSwitcherView(types: self.config.calendar.types,
+                                                       style: self.config.switcher.style,
                                                        delegate: self)
             
             self.view.addSubview(self.switcherView!)
@@ -82,9 +88,10 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     }
     
     fileprivate func configCalendarNavigation() {
-        if self.config.isNavigationVisible {
+        if self.config.calendar.isNavigationVisible {
             self.navigationView = SVCalendarNavigationView.navigation(delegate: self,
-                                                                      title: self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear))
+                                                                      style: self.config.navigation.style,
+                                                                      title: self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear))            
             self.view.addSubview(self.navigationView)
         }
     }
@@ -99,7 +106,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
             NSLayoutConstraint.bottomConst(item: self.calendarView, toItem: self.view, value: 0.0)
         ]
         
-        if self.config.isNavigationVisible {
+        if self.config.calendar.isNavigationVisible {
             constraints += [
                 NSLayoutConstraint.leadingConst(item: self.navigationView!, toItem: self.view, value: 5.0),
                 NSLayoutConstraint.trailingConst(item: self.navigationView!, toItem: self.view, value: 5.0),
@@ -115,7 +122,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
                                                                  value: 5.0)
         }
         
-        if self.config.isSwitcherVisible {
+        if self.config.calendar.isSwitcherVisible {
             constraints += [
                 NSLayoutConstraint.topConst(item: self.switcherView!, toItem: self.view, value: 5.0),
                 NSLayoutConstraint.leadingConst(item: self.switcherView!, toItem: self.view, value: 5.0),
@@ -170,9 +177,9 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     fileprivate func updateCalendarLayout(type: SVCalendarType) {
         self.calendarView.flowLayout.isAutoResizeCell = true
         
-        self.calendarView.flowLayout.isHeader1Visible = self.config.isHeaderSection1Visible
-        self.calendarView.flowLayout.isHeader2Visible = self.config.isHeaderSection2Visible
-        self.calendarView.flowLayout.isTimeVisible = self.config.isTimeSectionVisible
+        self.calendarView.flowLayout.isHeader1Visible = self.config.calendar.isHeaderSection1Visible
+        self.calendarView.flowLayout.isHeader2Visible = self.config.calendar.isHeaderSection2Visible
+        self.calendarView.flowLayout.isTimeVisible = self.config.calendar.isTimeSectionVisible
         
         self.calendarView.flowLayout.cellPadding = 0.0
         self.calendarView.flowLayout.numberOfRows = 6

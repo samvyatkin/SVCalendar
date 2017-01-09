@@ -40,21 +40,24 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
             }
             
             headerView.title = title
+            headerView.style = self.config.header1.style
             
             return headerView
             
         case SVCalendarHeaderSection2:
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                              withReuseIdentifier: SVCalendarHeaderView.identifier,
-                                                                             for: indexPath)
+                                                                             for: indexPath) as! SVCalendarHeaderView
+            
+            headerView.style = self.config.header1.style
             
             return headerView
             
         case SVCalendarTimeSection:
             let timeView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                            withReuseIdentifier: SVCalendarTimeView.identifier,
-                                                                           for: indexPath)
-            
+                                                                           for: indexPath) as! SVCalendarTimeView
+                        
             return timeView
             
         default:
@@ -65,7 +68,8 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
         let model = dates[indexPath.item]
-                
+        
+        cell.style = self.config.cell.style as? SVCellStyle
         cell.value = model.title
         cell.isEnabled = model.isEnabled
         cell.isSelected = !(self.selectedDate == nil

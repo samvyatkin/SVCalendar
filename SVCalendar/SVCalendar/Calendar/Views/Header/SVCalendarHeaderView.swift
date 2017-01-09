@@ -9,23 +9,26 @@
 import UIKit
 
 class SVCalendarHeaderView: UICollectionReusableView {
-    @IBOutlet weak var titleLabel: UILabel! {
-        didSet {
-            titleLabel.font = style.text.font
-            titleLabel.textColor = style.text.normalColor
-        }
-    }
+    @IBOutlet weak var titleLabel: UILabel!
     
     static var identifier: String {        
         return NSStringFromClass(SVCalendarHeaderView.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
     }
     
-    fileprivate let style = SVCalendarConfiguration.shared.styles.header1
-    
+    var style: SVStyleProtocol? {
+        didSet {
+            self.backgroundColor = self.style?.background.normalColor
+            
+            if self.titleLabel != nil {
+                self.titleLabel.font = self.style?.text.font
+                self.titleLabel.textColor = self.style?.text.normalColor
+            }                        
+        }
+    }
     var title: String? {
         didSet {
-            if titleLabel != nil {
-                titleLabel.text = title
+            if self.titleLabel != nil {
+                self.titleLabel.text = title
             }
         }
     }
@@ -33,11 +36,11 @@ class SVCalendarHeaderView: UICollectionReusableView {
     // MARK: - View LifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        configAppearance()
+        self.configAppearance()
     }
     
     // MARK: - View Appearance
     fileprivate func configAppearance() {
-        self.backgroundColor = style.background.normalColor
+        self.backgroundColor = self.style?.background.normalColor
     }
 }

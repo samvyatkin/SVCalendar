@@ -15,10 +15,6 @@ import UIKit
  */
 
 final public class SVCalendarManager {
-    public class var calendarController: SVCalendarViewController {
-        return SVCalendarViewController()
-    }
-    
     public class var bundle: Bundle? {                
         return Bundle(for: self)
     }
@@ -31,15 +27,15 @@ final public class SVCalendarManager {
         return "\(bundle.infoDictionary?[kCFBundleNameKey as String] as! String)."
     }
     
-    public class func addCalendarTo(parentController: UIViewController, withConstraints constraints: [NSLayoutConstraint]?) -> SVCalendarViewController {
-        let calendar = SVCalendarManager.calendarController
+    public class func addCalendarTo(parentController: UIViewController, with configuration: SVConfiguration, for constraints: [NSLayoutConstraint]?) -> SVCalendarViewController {
+        let calendar = SVCalendarViewController(config: configuration)
         
         parentController.addChildViewController(calendar)
         parentController.view.addSubview(calendar.view)
         calendar.didMove(toParentViewController: parentController)
         
         if constraints == nil {
-            let bindingViews = [
+            let bindingViews: [String: Any] = [
                 "calendarView": calendar.view
             ]
             

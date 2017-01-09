@@ -25,14 +25,15 @@ class SVCalendarSwitcherView: UIView {
     }()
     
     fileprivate let types: [SVCalendarType]
-    fileprivate let style = SVCalendarConfiguration.shared.styles.switcher
+    fileprivate let style: SVStyleProtocol
     fileprivate weak var delegate: SVCalendarSwitcherDelegate?
     
     var selectedIndex = 0
     
     // MARK: - Controller LifeCycle
-    init(types: [SVCalendarType], delegate: SVCalendarSwitcherDelegate?) {
+    init(types: [SVCalendarType], style: SVStyleProtocol, delegate: SVCalendarSwitcherDelegate?) {
         self.types = types
+        self.style = style
         self.delegate = delegate
         
         super.init(frame: CGRect.zero)
@@ -49,15 +50,15 @@ class SVCalendarSwitcherView: UIView {
     // MARK: - Configurate Appearance
     fileprivate func configAppearance() {
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = style.background.normalColor
+        self.backgroundColor = self.style.background.normalColor
     }
     
     fileprivate func configStackViewContainer() {
-        self.addSubview(stackViewContainer)
-        self.bringSubview(toFront: stackViewContainer)
+        self.addSubview(self.stackViewContainer)
+        self.bringSubview(toFront: self.stackViewContainer)
         
-        let bindingViews = [
-            "stackViewContainer" : stackViewContainer
+        let bindingViews: [String: Any] = [
+            "stackViewContainer" : self.stackViewContainer
         ]
         
         let vertConst = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[stackViewContainer]-0-|", options: [], metrics: nil, views: bindingViews)
@@ -69,7 +70,7 @@ class SVCalendarSwitcherView: UIView {
     
     fileprivate func configStackViewContent() {
         var index = 0
-        for type in types {
+        for type in self.types {
             var title = ""
             
             switch type {
@@ -102,18 +103,18 @@ class SVCalendarSwitcherView: UIView {
                 break
             }
             
-            let switcher = SVCalendarComponents.switcherButton(with: title).value() as! UIButton
+            let switcher = SVCalendarComponents.switcherButton(style: self.style as! SVSwitcherStyle, with: title).value() as! UIButton
             switcher.tag = index
             switcher.isSelected = index == 0
             switcher.addTarget(self, action: #selector(didChangeValue(_:)), for: .touchUpInside)
             
-            stackViewContainer.addArrangedSubview(switcher)
+            self.stackViewContainer.addArrangedSubview(switcher)
         }
     }    
     
     // MARK: - Switcher Methods
     func didChangeValue(_ sender: UIButton) {
-        selectSwitcherButton(sender)
+        self.selectSwitcherButton(sender)
         
         var type: SVCalendarType
         switch sender.tag {
@@ -142,11 +143,11 @@ class SVCalendarSwitcherView: UIView {
             break
         }
         
-        delegate?.didSelectType(type)
+        self.delegate?.didSelectType(type)
     }
     
     fileprivate func selectSwitcherButton(_ selectedButton: UIButton) {
-        for unselectedButton in stackViewContainer.arrangedSubviews as! [UIButton] {
+        for unselectedButton in self.stackViewContainer.arrangedSubviews as! [UIButton] {
             unselectedButton.isSelected = unselectedButton.tag == selectedButton.tag
         }
     }

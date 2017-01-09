@@ -9,24 +9,14 @@
 import UIKit
 
 class SVCalendarViewBaseCell: UICollectionViewCell {
-    @IBOutlet weak var valueLabel: UILabel! {
-        didSet {
-            valueLabel.textColor = SVCalendarViewBaseCell.style.text.normalColor
-            valueLabel.font = SVCalendarViewBaseCell.style.text.font
-        }
-    }
+    @IBOutlet weak var valueLabel: UILabel!
     
-    static let style = SVCalendarConfiguration.shared.styles.cell
     static var identifier: String {
         return NSStringFromClass(SVCalendarViewBaseCell.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
     }
     
     lazy var selectionLayer: CAShapeLayer = {
-        let circleLayer = CAShapeLayer()
-        circleLayer.fillColor = SVCalendarViewBaseCell.style.layer.normalColor?.cgColor
-        circleLayer.strokeColor = SVCalendarViewBaseCell.style.layer.selectedColor?.cgColor
-        
-        return circleLayer
+        return CAShapeLayer()
     }()
     
     override var bounds: CGRect {
@@ -41,6 +31,19 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         }
     }
     
+    var style: SVCellStyle? {
+        didSet {
+            self.backgroundColor = self.style?.background.normalColor
+            
+            self.selectionLayer.fillColor = self.style?.layer.normalColor.cgColor
+            self.selectionLayer.strokeColor = self.style?.layer.selectedColor.cgColor
+            
+            if self.valueLabel != nil {
+                self.valueLabel.textColor = self.style?.text.normalColor
+                self.valueLabel.font = self.style?.text.font
+            }
+        }
+    }
     var value: String? {
         didSet {
             if self.valueLabel != nil {
@@ -51,8 +54,8 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     var isEnabled: Bool = true {
         didSet {
             self.valueLabel.textColor = isEnabled ?
-                SVCalendarViewBaseCell.style.text.normalColor :
-                SVCalendarViewBaseCell.style.text.disabledColor
+                self.style?.text.normalColor :
+                self.style?.text.disabledColor
         }
     }
     
@@ -76,8 +79,6 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     
     // MARK: - Configurate Appearance
     fileprivate func configAppearance() {
-        self.layer.backgroundColor = SVCalendarViewBaseCell.style.button.normalColor?.cgColor
-            
         self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.contentView.autoresizesSubviews = true
         

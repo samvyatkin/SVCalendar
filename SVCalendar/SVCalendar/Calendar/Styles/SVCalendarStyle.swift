@@ -10,115 +10,170 @@ import Foundation
 import UIKit
 
 /**
- Calendar's style
- This class contains values on which depends look of calendar view
+ **Protocol describes visual appearance of component.**
+ 
+ This protocol contains two properties which presented by structs:
+    - SVBackground
+    - SVText
+ 
+ **SVBackground:**
+    - normalColor: *Color in normal state (UIColor)*
+    - selectedColor: *Color in selected state (UIColor)*
+ 
+ **SVText:**
+    - normalColor: *Color in normal state (UIColor)*
+    - selectedColor: *Color in selected state (UIColor)*
+    - disabledColor: *Color in disabled state (UIColor)*
+    - font: *Radius of corners of button's layer (UIFont)*
+ 
  */
-
-public enum SVCalendarControlls {
-    case container, calendar, switcher, navigation, header1, header2, time, cell
+public protocol SVStyleProtocol {
+    var background: SVBackground { get set }
+    var text: SVText { get set }
+    
+    init()
 }
 
-public  struct SVCalendarStyle {
-    public struct Background {
-        var normalColor: UIColor?
-        var selectedColor: UIColor?
-    }
+public struct SVBackground {
+    var normalColor: UIColor
+    var selectedColor: UIColor
     
-    public struct Button {
-        var normalColor: UIColor?
-        var selectedColor: UIColor?
-        var radius: CGFloat = 0
+    init() {
+        self.normalColor = UIColor.white
+        self.selectedColor = UIColor.white
     }
-    
-    public struct Layer {
-        var normalColor: UIColor?
-        var selectedColor: UIColor?
-        var radius: CGFloat = 0
-    }
-    
-    public struct Text {
-        var font: UIFont?
-        var normalColor: UIColor?
-        var selectedColor: UIColor?
-        var disabledColor: UIColor?
-    }
-    
-    public var background: Background
-    public var button: Button
-    public var layer: Layer
-    public var text: Text
-    
-    public init(for control: SVCalendarControlls) {
-        self.background = Background()
-        self.button = Button()
-        self.layer = Layer()
-        self.text = Text()
-        
-        configStyleForController(control)
-    }
+}
 
-    fileprivate mutating func configStyleForController(_ control: SVCalendarControlls) {
-        switch control {
-        case .container:
-            background.normalColor = UIColor.rgb(23.0, 51.0, 88.0)
-            break
-            
-        case .calendar:
-            background.normalColor = UIColor.clear
-            
-            button.normalColor = UIColor.clear
-            button.selectedColor = UIColor.red
-            break
-            
-        case .navigation:
-            background.normalColor = UIColor.rgb(23.0, 51.0, 88.0)
-            
-            text.font = UIFont.preferredFont(forTextStyle: .headline)
-            text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
-            break
-            
-        case .switcher:
-            background.normalColor = UIColor.clear
-            
-            button.normalColor = UIColor.clear
-            button.selectedColor = UIColor.rgb(117.0, 141.0, 177.0)
-            
-            layer.radius = 4.0
-            
-            text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
-            text.selectedColor = UIColor.rgb(255.0, 255.0, 255.0)
-            text.font = UIFont.preferredFont(forTextStyle: .headline)
-            
-            break
-            
-        case .header1:
-            background.normalColor = UIColor.clear
-            
-            text.font = UIFont.preferredFont(forTextStyle: .caption1)
-            text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
-            
-            break
-            
-        case .header2:
-            background.normalColor = UIColor.clear
-            break
-            
-        case .time:
-            background.normalColor = UIColor.clear
-            break
-            
-        case .cell:
-            background.normalColor = UIColor.clear
-            
-            layer.normalColor = UIColor.clear
-            layer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
-            
-            text.font = UIFont.preferredFont(forTextStyle: .caption1)
-            text.normalColor =  UIColor.rgb(221.0, 228.0, 237.0)
-            text.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
-            text.disabledColor = UIColor.rgb(142.0, 142.0, 142.0)
-            
-            break
-        }
+public struct SVText {
+    var font: UIFont
+    var normalColor: UIColor
+    var selectedColor: UIColor
+    var disabledColor: UIColor
+    
+    init() {
+        self.font = UIFont.preferredFont(forTextStyle: .headline)
+        self.normalColor = UIColor.black
+        self.selectedColor = UIColor.darkGray
+        self.disabledColor = UIColor.lightGray
+    }
+}
+
+/**
+ 
+ */
+public struct SVContainerStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.rgb(23.0, 51.0, 88.0)
+    }
+}
+
+/**
+ 
+ */
+public struct SVCalendarStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+    }
+}
+
+/**
+ 
+ */
+public struct SVSwitcherStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var button: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    public let radius: CGFloat = 4.0
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+        
+        self.button.normalColor = UIColor.clear
+        self.button.selectedColor = UIColor.rgb(117.0, 141.0, 177.0)
+        
+        self.text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
+        self.text.selectedColor = UIColor.rgb(255.0, 255.0, 255.0)
+        self.text.font = UIFont.preferredFont(forTextStyle: .headline)
+    }
+}
+
+/**
+ 
+ */
+public struct SVNavigationStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.rgb(23.0, 51.0, 88.0)
+        
+        self.text.font = UIFont.preferredFont(forTextStyle: .headline)
+        self.text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
+    }
+}
+
+/**
+ 
+ */
+public struct SVHeader1Style: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+        
+        self.text.font = UIFont.preferredFont(forTextStyle: .caption1)
+        self.text.normalColor = UIColor.rgb(100.0, 121.0, 161.0)
+    }
+}
+
+/**
+ 
+ */
+public struct SVHeader2Style: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+    }
+}
+
+/**
+ 
+ */
+public struct SVTimeStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+    }
+}
+
+/**
+ 
+ */
+public struct SVCellStyle: SVStyleProtocol {
+    public var background: SVBackground = SVBackground()
+    public var layer: SVBackground = SVBackground()
+    public var text: SVText = SVText()
+    
+    public init() {
+        self.background.normalColor = UIColor.clear
+        
+        self.layer.normalColor = UIColor.clear
+        self.layer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        
+        self.text.font = UIFont.preferredFont(forTextStyle: .caption1)
+        self.text.normalColor =  UIColor.rgb(221.0, 228.0, 237.0)
+        self.text.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        self.text.disabledColor = UIColor.rgb(142.0, 142.0, 142.0)
     }
 }
