@@ -1,5 +1,6 @@
 # SVCalendar
 Custom calendar for iOS
+Stable release - <b> 1.0.6 </b>
 
 # Installation
 1. In terminal go to your project's folder , e.g <b> cd /User/Developer/YourProjectName </b>
