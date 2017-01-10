@@ -12,7 +12,7 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     @IBOutlet weak var valueLabel: UILabel!
     
     static var identifier: String {
-        return NSStringFromClass(SVCalendarViewBaseCell.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
+        return NSStringFromClass(SVCalendarViewBaseCell.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
     
     lazy var selectionLayer: CAShapeLayer = {

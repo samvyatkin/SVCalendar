@@ -10,7 +10,7 @@ import UIKit
 
 class SVCalendarTimeView: UICollectionReusableView {
     static var identifier: String {
-        return NSStringFromClass(SVCalendarTimeView.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
+        return NSStringFromClass(SVCalendarTimeView.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
     
     // MARK: - View LifeCycle

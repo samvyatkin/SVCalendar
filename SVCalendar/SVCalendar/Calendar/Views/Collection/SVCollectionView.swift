@@ -38,23 +38,23 @@ class SVCollectionView: UICollectionView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = self.calendarConfig.style.background.normalColor
         
-        self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: SVCalendarManager.bundle!),
+        self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: SVCalendarConstants.bundle!),
                       forCellWithReuseIdentifier: SVCalendarViewBaseCell.identifier)
         
         if self.calendarConfig.isHeaderSection1Visible {
-            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
+            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarConstants.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection1,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
         if self.calendarConfig.isHeaderSection2Visible {
-            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarManager.bundle!),
+            self.register(UINib(nibName: SVCalendarHeaderView.identifier, bundle: SVCalendarConstants.bundle!),
                           forSupplementaryViewOfKind: SVCalendarHeaderSection2,
                           withReuseIdentifier: SVCalendarHeaderView.identifier)
         }
         
         if self.calendarConfig.isTimeSectionVisible {
-            self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: SVCalendarManager.bundle!),
+            self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: SVCalendarConstants.bundle!),
                           forSupplementaryViewOfKind: SVCalendarTimeSection,
                           withReuseIdentifier: SVCalendarTimeView.identifier)
         }

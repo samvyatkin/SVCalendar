@@ -47,7 +47,7 @@ public struct SVCalendarConfiguration: SVConfigurationProtocol {
     public var style: SVStyleProtocol = SVCalendarStyle()
     
     public var types: [SVCalendarType] {
-        return [SVCalendarType.month]
+        return SVCalendarType.defaultTypes
     }
     
     public var minYear: Int = 2000

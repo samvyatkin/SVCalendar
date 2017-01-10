@@ -12,7 +12,7 @@ class SVCalendarHeaderView: UICollectionReusableView {
     @IBOutlet weak var titleLabel: UILabel!
     
     static var identifier: String {        
-        return NSStringFromClass(SVCalendarHeaderView.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
+        return NSStringFromClass(SVCalendarHeaderView.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
     
     var style: SVStyleProtocol? {

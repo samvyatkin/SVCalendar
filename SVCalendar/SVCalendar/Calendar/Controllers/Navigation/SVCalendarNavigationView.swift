@@ -18,7 +18,7 @@ class SVCalendarNavigationView: UIView {
     @IBOutlet weak var dateTitle: UILabel!
     
     static var identifier: String {        
-        return NSStringFromClass(SVCalendarNavigationView.self).replacingOccurrences(of: SVCalendarManager.bundleIdentifier, with: "")
+        return NSStringFromClass(SVCalendarNavigationView.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
     
     fileprivate weak var delegate: SVCalendarNavigationDelegate?
@@ -41,7 +41,7 @@ class SVCalendarNavigationView: UIView {
     
     // MARK: - Object LifeCycle
     static func navigation(delegate: SVCalendarNavigationDelegate?, style: SVStyleProtocol, title: String?) -> SVCalendarNavigationView {
-        let nib = UINib(nibName: SVCalendarNavigationView.identifier, bundle: SVCalendarManager.bundle!)
+        let nib = UINib(nibName: SVCalendarNavigationView.identifier, bundle: SVCalendarConstants.bundle!)
         let view = nib.instantiate(withOwner: nil, options: nil).first as! SVCalendarNavigationView
         
         view.delegate = delegate

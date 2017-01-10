@@ -103,8 +103,9 @@ class SVCalendarSwitcherView: UIView {
                 break
             }
             
-            let switcher = SVCalendarComponents.switcherButton(style: self.style as! SVSwitcherStyle, with: title).value() as! UIButton
+            let switcher = SVCalendarComponents.switcherButton(style: self.style as! SVSwitcherStyle, with: title).value() as! SVCalendarSwitcherButton
             switcher.tag = index
+            switcher.bottomLineDirection = SVCalendarSwitcherBottomLineDirection.right
             switcher.isSelected = index == 0
             switcher.addTarget(self, action: #selector(didChangeValue(_:)), for: .touchUpInside)
             
@@ -113,7 +114,7 @@ class SVCalendarSwitcherView: UIView {
     }    
     
     // MARK: - Switcher Methods
-    func didChangeValue(_ sender: UIButton) {
+    func didChangeValue(_ sender: SVCalendarSwitcherButton) {
         self.selectSwitcherButton(sender)
         
         var type: SVCalendarType
@@ -146,9 +147,36 @@ class SVCalendarSwitcherView: UIView {
         self.delegate?.didSelectType(type)
     }
     
-    fileprivate func selectSwitcherButton(_ selectedButton: UIButton) {
-        for unselectedButton in self.stackViewContainer.arrangedSubviews as! [UIButton] {
-            unselectedButton.isSelected = unselectedButton.tag == selectedButton.tag
+    fileprivate func selectSwitcherButton(_ selectedButton: SVCalendarSwitcherButton) {
+        let buttons = self.stackViewContainer.arrangedSubviews as! [SVCalendarSwitcherButton]
+        
+        var previousButton: SVCalendarSwitcherButton?
+        var previousButtonIndex: Int?
+        var selectedButtonIndex: Int?
+        
+        for (index, button) in buttons.enumerated() {
+            if !button.isSelected && button.tag == selectedButton.tag {
+                selectedButtonIndex = index
+            }
+            
+            if button.isSelected {
+                previousButton = button
+                previousButtonIndex = index
+            }
         }
+        
+        guard previousButtonIndex != nil && selectedButtonIndex != nil else {
+            return
+        }
+        
+        let direction = previousButtonIndex! >= selectedButtonIndex! ? SVCalendarSwitcherBottomLineDirection.left : .right
+        
+        previousButton?.bottomLineDirection = direction
+        previousButton?.isSelected = false
+        
+        selectedButton.bottomLineDirection = direction
+        selectedButton.isSelected = true
+        
+        self.selectedIndex = selectedButtonIndex!
     }
 }
