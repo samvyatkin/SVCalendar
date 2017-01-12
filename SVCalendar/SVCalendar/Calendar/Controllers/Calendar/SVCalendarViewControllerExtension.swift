@@ -69,7 +69,7 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
         let model = dates[indexPath.item]
         
-        cell.style = self.config.cell.style as? SVCellStyle
+        cell.style = self.config.cell.style
         cell.value = model.title
         cell.isEnabled = model.isEnabled
         cell.isSelected = !(self.selectedDate == nil

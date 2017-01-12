@@ -33,18 +33,21 @@ public struct SVCalendarType: OptionSet, Hashable {
 */
 
 public protocol SVConfigurationProtocol {
-    var style: SVStyleProtocol { get set }
+    associatedtype SVStyleType
+    var style: SVStyleType { get set }
     
     init()
 }
 
 public struct SVContainerConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVContainerStyle()
+    public typealias SVStyleType = SVStyleProtocol
+    public var style: SVStyleType = SVContainerStyle()
     public init() {}
 }
 
 public struct SVCalendarConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVCalendarStyle()
+    public typealias SVStyleType = SVCalendarStyle
+    public var style: SVStyleType = SVCalendarStyle()
     
     public var types: [SVCalendarType] {
         return SVCalendarType.defaultTypes
@@ -58,38 +61,43 @@ public struct SVCalendarConfiguration: SVConfigurationProtocol {
     public var isNavigationVisible = true
     public var isHeaderSection1Visible = true
     public var isHeaderSection2Visible = false
-    public var isTimeSectionVisible = false
     
     public init() {}
 }
 
 public struct SVSwitcherConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVSwitcherStyle()
+    public typealias SVStyleType = SVSwitcherStyle
+    public var style: SVStyleType = SVSwitcherStyle()
     public init() {}
 }
 
 public struct SVNavigationConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVNavigationStyle()
+    public typealias SVStyleType = SVNavigationStyle
+    public var style: SVStyleType = SVNavigationStyle()
     public init() {}
 }
 
 public struct SVHeader1Configuration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVHeader1Style()
+    public typealias SVStyleType = SVHeader1Style
+    public var style: SVStyleType = SVHeader1Style()
     public init() {}
 }
 
 public struct SVHeader2Configuration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVHeader2Style()
+    public typealias SVStyleType = SVHeader2Style
+    public var style: SVStyleType = SVHeader2Style()
     public init() {}
 }
 
 public struct SVTimeConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVTimeStyle()
+    public typealias SVStyleType = SVTimeStyle
+    public var style: SVStyleType = SVTimeStyle()
     public init() {}
 }
 
 public struct SVCellConfiguration: SVConfigurationProtocol {
-    public var style: SVStyleProtocol = SVCellStyle()
+    public typealias SVStyleType = SVCellStyle
+    public var style: SVStyleType = SVCellStyle()
     public init() {}
 }
 

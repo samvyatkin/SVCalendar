@@ -52,8 +52,45 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     var columnOffset: CGFloat = 0.0
     var cellPadding: CGFloat = 5.0
     
+    var type: SVCalendarType {
+        didSet {
+            self.isAutoResizeCell = true                        
+            self.isTimeVisible = false
+            self.cellPadding = 0.0
+            
+            self.timeWidth = 0.0
+            self.timeHeight = 0.0
+            
+            self.numberOfRows = 6
+            self.numberOfColumns = 7
+            
+            switch type {
+            case SVCalendarType.day:
+                self.isTimeVisible = true
+                self.numberOfRows = nil
+                self.numberOfColumns = 1
+                self.timeWidth = 65.0
+                self.timeHeight = 60.0
+                self.columnHeight = self.timeHeight
+                
+            case SVCalendarType.week: break
+            case SVCalendarType.month: break
+            case SVCalendarType.quarter: break
+            case SVCalendarType.year:
+                self.isHeader1Visible = false
+                self.isHeader2Visible = false
+                self.isTimeVisible = false
+            case SVCalendarType.all: break
+            default: break
+            }
+            
+            self.updateLayout()
+        }
+    }
+    
     // MARK: - FlowLayout LifeCycle
-    init(direction: SVCalendarFlowLayoutDirection) {
+    init(type: SVCalendarType, direction: SVCalendarFlowLayoutDirection) {
+        self.type = type
         self.direction = direction
         super.init()
     }

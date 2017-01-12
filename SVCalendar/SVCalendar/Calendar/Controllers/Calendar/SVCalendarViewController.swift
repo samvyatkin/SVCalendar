@@ -11,6 +11,7 @@ import UIKit
 public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
     fileprivate let calendarView: SVCollectionView
     fileprivate let service: SVCalendarService
+    fileprivate var type: SVCalendarType
     
     fileprivate var switcherView: SVCalendarSwitcherView?
     fileprivate var navigationView: SVCalendarNavigationView!
@@ -26,7 +27,11 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     // MARK: - Controller LifeCycle
     public init(config: SVConfiguration?) {
         self.config = config ?? SVConfiguration()
-        self.calendarView = SVCollectionView(config: self.config.calendar)
+        self.type = self.config.calendar.types.first ?? SVCalendarType.day
+        
+        self.calendarView = SVCollectionView(type: self.type,
+                                             config: self.config.calendar)
+        
         self.service = SVCalendarService(types: self.config.calendar.types,
                                          minYear: self.config.calendar.minYear,
                                          maxYear: self.config.calendar.maxYear)
@@ -175,41 +180,16 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     }
     
     fileprivate func updateCalendarLayout(type: SVCalendarType) {
-        self.calendarView.flowLayout.isAutoResizeCell = true
-        
         self.calendarView.flowLayout.isHeader1Visible = self.config.calendar.isHeaderSection1Visible
-        self.calendarView.flowLayout.isHeader2Visible = self.config.calendar.isHeaderSection2Visible
-        self.calendarView.flowLayout.isTimeVisible = self.config.calendar.isTimeSectionVisible
+        self.calendarView.flowLayout.isHeader2Visible = self.config.calendar.isHeaderSection2Visible        
         
-        self.calendarView.flowLayout.cellPadding = 0.0
-        self.calendarView.flowLayout.numberOfRows = 6
-        self.calendarView.flowLayout.numberOfColumns = 7
-        
-        switch type {
-        case SVCalendarType.day:
-            break        
-        case SVCalendarType.week:
-            break
-        case SVCalendarType.month:
-            break
-        case SVCalendarType.quarter:
-            break
-        case SVCalendarType.year:
-            self.calendarView.flowLayout.isHeader1Visible = false
-            self.calendarView.flowLayout.isHeader2Visible = false
-            self.calendarView.flowLayout.isTimeVisible = false
-            break
-        case SVCalendarType.all:
-            break
-        default:
-            break
-        }
-        
-        self.calendarView.flowLayout.updateLayout()
+        self.calendarView.flowLayout.type = type
     }
     
     // MARK: - Calendar Switcher
     public func didSelectType(_ type: SVCalendarType) {
+        self.type = type
+        
         self.updateCalendarLayout(type: type)
         self.updateCalendarData(type: type)
     }
@@ -217,13 +197,13 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     // MARK: - Calendar Navigation
     public func didChangeNavigationDate(direction: SVCalendarNavigationDirection) -> String? {
         if direction == .reduce {
-            self.service.updateDate(for: .month, isDateIncrease: false)
+            self.service.updateDate(for: self.type, isDateIncrease: false)
         }
         else if direction == .increase {
-            self.service.updateDate(for: .month, isDateIncrease: true)
+            self.service.updateDate(for: self.type, isDateIncrease: true)
         }
         
-        self.updateCalendarData(type: .month)
+        self.updateCalendarData(type: self.type)
         
         return self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear)
     }
