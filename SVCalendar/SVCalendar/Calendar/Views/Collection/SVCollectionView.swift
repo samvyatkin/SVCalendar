@@ -46,8 +46,11 @@ class SVCollectionView: UICollectionView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = self.calendarConfig.style.background.normalColor
         
-        self.register(UINib(nibName: SVCalendarViewBaseCell.identifier, bundle: SVCalendarConstants.bundle!),
-                      forCellWithReuseIdentifier: SVCalendarViewBaseCell.identifier)
+        self.register(UINib(nibName: SVCalendarViewMonthCell.identifier, bundle: SVCalendarConstants.bundle!),
+                      forCellWithReuseIdentifier: SVCalendarViewMonthCell.identifier)
+        
+        self.register(UINib(nibName: SVCalendarViewDayCell.identifier, bundle: SVCalendarConstants.bundle!),
+                      forCellWithReuseIdentifier: SVCalendarViewDayCell.identifier)
         
         self.register(UINib(nibName: SVCalendarTimeView.identifier, bundle: SVCalendarConstants.bundle!),
                       forSupplementaryViewOfKind: SVCalendarTimeSection,

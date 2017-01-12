@@ -9,11 +9,6 @@
 import UIKit
 
 class SVCalendarViewBaseCell: UICollectionViewCell {
-    @IBOutlet weak var valueLabel: UILabel!
-    
-    static var identifier: String {
-        return NSStringFromClass(SVCalendarViewBaseCell.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
-    }
     
     lazy var selectionLayer: CAShapeLayer = {
         return CAShapeLayer()
@@ -37,27 +32,10 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
             
             self.selectionLayer.fillColor = self.style?.layer.normalColor.cgColor
             self.selectionLayer.strokeColor = self.style?.layer.selectedColor.cgColor
-            
-            if self.valueLabel != nil {
-                self.valueLabel.textColor = self.style?.text.normalColor
-                self.valueLabel.font = self.style?.text.font
-            }
         }
     }
-    var value: String? {
-        didSet {
-            if self.valueLabel != nil {
-                self.valueLabel.text = value
-            }
-        }
-    }
-    var isEnabled: Bool = true {
-        didSet {
-            self.valueLabel.textColor = isEnabled ?
-                self.style?.text.normalColor :
-                self.style?.text.disabledColor
-        }
-    }
+    var value: String? 
+    var isEnabled: Bool = true
     
     // MARK: - Cell LifeCycle
     override func awakeFromNib() {

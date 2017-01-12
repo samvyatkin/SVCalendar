@@ -65,9 +65,9 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
         }
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
-        let model = dates[indexPath.item]
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier, for: indexPath) as! SVCalendarViewBaseCell
+        let model = self.dates[indexPath.item]
         
         cell.style = self.config.cell.style
         cell.value = model.title
@@ -80,7 +80,7 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     
     // MARK: - Collection Delegate
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier, for: indexPath) as! SVCalendarViewBaseCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier, for: indexPath) as! SVCalendarViewBaseCell
         let model = dates[indexPath.item]
         
         cell.isSelected = true
@@ -88,7 +88,7 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
         if self.selectedDate != nil {
             if let index = dates.index(where: { $0.value.compare(self.selectedDate!) == .orderedSame }) {
                 let selectedIndex = IndexPath(item: index, section: 0)
-                let selectedCell = collectionView.dequeueReusableCell(withReuseIdentifier: SVCalendarViewBaseCell.identifier,
+                let selectedCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier,
                                                                       for: selectedIndex) as! SVCalendarViewBaseCell
                 selectedCell.isSelected = false
             }

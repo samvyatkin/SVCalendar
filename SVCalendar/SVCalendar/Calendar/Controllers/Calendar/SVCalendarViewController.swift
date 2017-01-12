@@ -11,12 +11,24 @@ import UIKit
 public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
     fileprivate let calendarView: SVCollectionView
     fileprivate let service: SVCalendarService
-    fileprivate var type: SVCalendarType
+    fileprivate var type: SVCalendarType = SVCalendarType.day {
+        didSet {
+            switch type {
+            case SVCalendarType.day: self.identifier = SVCalendarViewDayCell.identifier
+            case SVCalendarType.week: self.identifier = ""
+            case SVCalendarType.month: self.identifier = SVCalendarViewMonthCell.identifier
+            case SVCalendarType.quarter: self.identifier = ""
+            case SVCalendarType.year: self.identifier = ""
+            default: break
+            }
+        }
+    }
     
     fileprivate var switcherView: SVCalendarSwitcherView?
     fileprivate var navigationView: SVCalendarNavigationView!
     
     public let config: SVConfiguration
+    public var identifier: String = SVCalendarViewDayCell.identifier
     
     public var dates = [SVCalendarDate]()
     public var headerTitles = [String]()
@@ -27,8 +39,6 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     // MARK: - Controller LifeCycle
     public init(config: SVConfiguration?) {
         self.config = config ?? SVConfiguration()
-        self.type = self.config.calendar.types.first ?? SVCalendarType.day
-        
         self.calendarView = SVCollectionView(type: self.type,
                                              config: self.config.calendar)
         
@@ -72,14 +82,17 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         self.view.backgroundColor = self.config.container.style.background.normalColor
     }
     
-    fileprivate func configCalendarView() {        
+    fileprivate func configCalendarView() {
+        self.type = self.config.calendar.types.first ?? SVCalendarType.day
+        self.calendarView.flowLayout.type = self.type
+        
         self.view.addSubview(self.calendarView)
         
         self.calendarView.dataSource = self
         self.calendarView.delegate = self
         
-        self.updateCalendarLayout(type: .month)
-        self.updateCalendarData(type: .month)
+        self.updateCalendarLayout(type: self.type)
+        self.updateCalendarData(type: self.type)
     }
     
     fileprivate func configCalendarSwitcher() {
