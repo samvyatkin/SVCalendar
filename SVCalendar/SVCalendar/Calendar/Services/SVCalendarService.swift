@@ -17,6 +17,7 @@ public struct SVCalendarDateFormat {
     static let short = "dd.MM.yyyy"
     static let full = "dd EEEE, MMMM yyyy"
     static let monthYear = "MMMM yyyy"
+    static let dayMonthYear = "d MMM yyyy"
     static let time = "HH:mm"
 }
 

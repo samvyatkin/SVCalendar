@@ -39,8 +39,9 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
                 title = self.headerTitles[index]
             }
             
+            
             headerView.title = title
-            headerView.style = self.config.header1.style
+            headerView.style = self.config.header1.style            
             
             return headerView
             

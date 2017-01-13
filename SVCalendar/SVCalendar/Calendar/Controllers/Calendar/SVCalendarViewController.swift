@@ -112,6 +112,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
                                                                       style: self.config.navigation.style,
                                                                       title: self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear))            
             self.view.addSubview(self.navigationView)
+            self.navigationView.updateNavigationDate(self.didChangeNavigationDate(direction: .none))
         }
     }
     
@@ -206,6 +207,10 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         
         self.updateCalendarLayout(type: type)
         self.updateCalendarData(type: type)
+        
+        if self.config.calendar.isNavigationVisible {
+           self.navigationView.updateNavigationDate(self.didChangeNavigationDate(direction: .none))
+        }
     }
     
     // MARK: - Calendar Navigation
@@ -217,8 +222,21 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
             self.service.updateDate(for: self.type, isDateIncrease: true)
         }
         
-        self.updateCalendarData(type: self.type)
+        var dateFormat = SVCalendarDateFormat.monthYear
+        switch self.type {
+        case SVCalendarType.day: dateFormat = SVCalendarDateFormat.dayMonthYear
+        case SVCalendarType.week: break
+        case SVCalendarType.month: break
+        case SVCalendarType.quarter: break
+        case SVCalendarType.year: break
+        case SVCalendarType.all: break
+        default: break
+        }
         
-        return self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear)
+        if direction != .none {
+            self.updateCalendarData(type: self.type)
+        }
+        
+        return self.service.updatedDate.convertWith(format: dateFormat)
     }
 }

@@ -15,7 +15,7 @@ class SVCalendarHeaderView: UICollectionReusableView {
         return NSStringFromClass(SVCalendarHeaderView.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
     
-    var style: SVStyleProtocol? {
+    var style: SVHeader1Style? {
         didSet {
             self.backgroundColor = self.style?.background.normalColor
             

@@ -9,7 +9,7 @@
 import UIKit
 
 public enum SVCalendarNavigationDirection {
-    case reduce, increase
+    case reduce, increase, none
 }
 
 class SVCalendarNavigationView: UIView {
@@ -71,6 +71,10 @@ class SVCalendarNavigationView: UIView {
         self.style = nil
         self.title = nil
         self.delegate = nil
+    }
+    
+    func updateNavigationDate(_ date: String?) {
+        self.title = date
     }
     
     // MARK: - Navigation Delegates

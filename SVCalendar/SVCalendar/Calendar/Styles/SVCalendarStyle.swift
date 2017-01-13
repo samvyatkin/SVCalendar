@@ -25,6 +25,7 @@ import UIKit
     - selectedColor: *Color in selected state (UIColor)*
     - disabledColor: *Color in disabled state (UIColor)*
     - font: *Radius of corners of button's layer (UIFont)*
+    - aligment: *Text aligment in label (NSTextAligment)*
  
  */
 public protocol SVStyleProtocol {
@@ -49,12 +50,14 @@ public struct SVText {
     var normalColor: UIColor
     var selectedColor: UIColor
     var disabledColor: UIColor
+    var aligment: NSTextAlignment
     
     init() {
         self.font = UIFont.preferredFont(forTextStyle: .headline)
         self.normalColor = UIColor.black
         self.selectedColor = UIColor.darkGray
         self.disabledColor = UIColor.lightGray
+        self.aligment = NSTextAlignment.center
     }
 }
 

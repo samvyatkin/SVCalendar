@@ -58,6 +58,9 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             self.isTimeVisible = false
             self.cellPadding = 0.0
             
+            self.headerHeight = 0.0
+            self.headerWidth = 0.0
+            
             self.timeWidth = 0.0
             self.timeHeight = 0.0
             
@@ -67,6 +70,8 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             switch type {
             case SVCalendarType.day:
                 self.isTimeVisible = true
+                self.isHeader1Visible = false
+                
                 self.numberOfRows = 24
                 self.numberOfColumns = 1
                 self.timeWidth = 70.0
@@ -106,40 +111,40 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     }
     
     deinit {
-        cache.removeAll()
+        self.cache.removeAll()
     }
     
     override func prepare() {
-        if cache.isEmpty {
+        if self.cache.isEmpty {
             var index = 0
             var xOffset = [CGFloat]()
             var yOffset = [CGFloat]()
             var columnContent: CGFloat = 0.0
             
-            if direction == .vertical {
-                width = contentWidth
+            if self.direction == .vertical {
+                self.width = self.contentWidth
                 
-                if numberOfColumns == nil {
-                    numberOfColumns = Int(width/columnWidth)
+                if self.numberOfColumns == nil {
+                    self.numberOfColumns = Int(self.width/self.columnWidth)
                 }
                 
-                if isHeader1Visible {
-                    headerWidth = contentWidth / CGFloat(numberOfColumns!)
-                    headerHeight = 45.0                                        
+                if self.isHeader1Visible {
+                    self.headerWidth = self.contentWidth / CGFloat(self.numberOfColumns!)
+                    self.headerHeight = 45.0
                 }
                 
-                if isHeader2Visible {
+                if self.isHeader2Visible {
                     // TODO: Calculate secondary header
                 }
                 
-                if isTimeVisible {
-                    timeWidth = 65.0
-                    timeHeight = columnHeight
+                if self.isTimeVisible {
+                    self.timeWidth = 65.0
+                    self.timeHeight = self.columnHeight
                 }
                 
-                if numberOfColumns == 1 {
-                    if isAutoResizeCell {
-                        columnWidth = contentWidth
+                if self.numberOfColumns == 1 {
+                    if self.isAutoResizeCell {
+                        self.columnWidth = self.contentWidth
                         
                         columnContent = CGFloat(numberOfColumns!) * (columnWidth - 2 * cellPadding)
                         columnOffset = contentWidth - columnContent

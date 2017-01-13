@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name = 'SVCalendar'
-    s.version = '1.0.6'
+    s.version = '1.0.7'
     s.summary = 'SVCalendar lets a user see default calendar'
     s.description = 'SVCalendar allows to show calendar on current date or date which was selected by user by switching between months'    
     s.homepage = 'https://github.com/S7Vyto/SVCalendar'
