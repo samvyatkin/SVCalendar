@@ -17,6 +17,7 @@ public struct SVCalendarDateFormat {
     static let short = "dd.MM.yyyy"
     static let full = "dd EEEE, MMMM yyyy"
     static let monthYear = "MMMM yyyy"
+    static let time = "HH:mm"
 }
 
 class SVCalendarService {
@@ -463,7 +464,7 @@ class SVCalendarService {
         var dateComponents = calendar.dateComponents(components, from: date)
         dateComponents.weekday = calendar.firstWeekday
         dateComponents.day! += 1
-        dateComponents.hour = 1
+        dateComponents.hour = 0
         dateComponents.minute = 0
         dateComponents.second = 0
         
@@ -475,7 +476,7 @@ class SVCalendarService {
         let endDayDate = self.endDayDate(from: beginDayDate)
         
         var dates = [SVCalendarDate]()
-        while beginDayDate.compare(endDayDate) != .orderedSame {
+        while beginDayDate.compare(endDayDate) != .orderedDescending {
             var calendarComponents = calendar.dateComponents(components, from: beginDayDate)
             let title = "\(calendarComponents.hour!)"
             let isEnabled = calendarComponents.hour! >= currentComponents.hour! || calendarComponents.day! > currentComponents.day!
@@ -490,7 +491,7 @@ class SVCalendarService {
                                         type: .day))
             
             calendarComponents.hour! += 1
-            beginDayDate = calendar.date(from: calendarComponents)!            
+            beginDayDate = calendar.date(from: calendarComponents)!
         }
         
         return dates

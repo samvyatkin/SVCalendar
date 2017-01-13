@@ -13,4 +13,27 @@ class SVCalendarViewDayCell: SVCalendarViewBaseCell {
     static var identifier: String {
         return NSStringFromClass(SVCalendarViewDayCell.self).replacingOccurrences(of: SVCalendarConstants.bundleIdentifier, with: "")
     }
+    
+    override var style: SVCellStyle? {
+        didSet {
+            self.bottomLineLayer.fillColor = self.style?.layer.normalColor.cgColor
+            self.bottomLineLayer.strokeColor = self.style?.layer.selectedColor.cgColor
+        }
+    }
+    
+    override var value: String? {
+        didSet {
+            
+        }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.updateBottomLinePath(self.bounds)
+    }
+    
+    override func configAppearance() {
+        super.configAppearance()
+        self.contentView.layer.addSublayer(self.bottomLineLayer)
+    }
 }

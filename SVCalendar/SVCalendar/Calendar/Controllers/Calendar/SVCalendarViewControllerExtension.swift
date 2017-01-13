@@ -29,14 +29,14 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                              withReuseIdentifier: SVCalendarHeaderView.identifier,
                                                                              for: indexPath) as! SVCalendarHeaderView
-            if headerTitles.count == 0 {
+            if self.headerTitles.count == 0 {
                 title = "-"
             }
-            else if index >= headerTitles.count {
-                title = headerTitles[0]
+            else if index >= self.headerTitles.count {
+                title = self.headerTitles[0]
             }
             else {
-                title = headerTitles[index]
+                title = self.headerTitles[index]
             }
             
             headerView.title = title
@@ -53,11 +53,19 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
             
             return headerView
             
-        case SVCalendarTimeSection:
+        case SVCalendarTimeSection:            
+            var title = indexPath.row < 10 ? "0\(indexPath.row):00" : "\(indexPath.row):00"
             let timeView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                            withReuseIdentifier: SVCalendarTimeView.identifier,
                                                                            for: indexPath) as! SVCalendarTimeView
-                        
+            
+            if indexPath.row == 24 {
+                title = "00:00"
+            }
+            
+            timeView.style = self.config.time.style
+            timeView.value = title                                    
+            
             return timeView
             
         default:

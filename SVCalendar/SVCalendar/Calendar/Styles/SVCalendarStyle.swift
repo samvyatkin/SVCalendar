@@ -150,10 +150,17 @@ public struct SVHeader2Style: SVStyleProtocol {
  */
 public struct SVTimeStyle: SVStyleProtocol {
     public var background: SVBackground = SVBackground()
+    public var layer: SVBackground = SVBackground()
     public var text: SVText = SVText()
     
     public init() {
         self.background.normalColor = UIColor.clear
+        
+        self.layer.normalColor = UIColor.clear
+        self.layer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        
+        self.text.font = UIFont.preferredFont(forTextStyle: .caption1)
+        self.text.normalColor =  UIColor.rgb(221.0, 228.0, 237.0)
     }
 }
 

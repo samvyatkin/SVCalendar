@@ -67,19 +67,25 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             switch type {
             case SVCalendarType.day:
                 self.isTimeVisible = true
-                self.numberOfRows = nil
+                self.numberOfRows = 24
                 self.numberOfColumns = 1
-                self.timeWidth = 65.0
+                self.timeWidth = 70.0
                 self.timeHeight = 60.0
                 self.columnHeight = self.timeHeight
                 
-            case SVCalendarType.week: break
+            case SVCalendarType.week:
+                self.isTimeVisible = true
+                self.numberOfRows = 24
+                self.numberOfColumns = 7
+                self.timeWidth = 70.0
+                self.timeHeight = 60.0
+                self.columnHeight = self.timeHeight
+                
             case SVCalendarType.month: break
             case SVCalendarType.quarter: break
             case SVCalendarType.year:
                 self.isHeader1Visible = false
                 self.isHeader2Visible = false
-                self.isTimeVisible = false
             case SVCalendarType.all: break
             default: break
             }
@@ -222,7 +228,7 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             attrs.append(attr.value)
         }
         
-        if isHeader1Visible {
+        if self.isHeader1Visible {
             let indexPaths = headerView1Paths()
             for indexPath in indexPaths {
                 guard let attr = self.layoutAttributesForSupplementaryView(ofKind: SVCalendarHeaderSection1, at: indexPath) else {
@@ -233,14 +239,14 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        if isHeader2Visible {
+        if self.isHeader2Visible {
             var index = -1
             
-            if isHeader1Visible {
-                index = headerView1Paths().count
+            if self.isHeader1Visible {
+                index = self.headerView1Paths().count
             }
             
-            let indexPaths = headerView2Paths(startIndex: index)
+            let indexPaths = self.headerView2Paths(startIndex: index)
             for indexPath in indexPaths {
                 guard let attr = self.layoutAttributesForSupplementaryView(ofKind: SVCalendarHeaderSection2, at: indexPath) else {
                     continue
@@ -250,8 +256,8 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        if isTimeVisible {
-            let indexPaths = timeViewPaths()
+        if self.isTimeVisible {
+            let indexPaths = self.timeViewPaths()
             for indexPath in indexPaths {
                 guard let attr = self.layoutAttributesForSupplementaryView(ofKind: SVCalendarTimeSection, at: indexPath) else {
                     continue
@@ -277,18 +283,18 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
         
         switch elementKind {
         case SVCalendarHeaderSection1:
-            attrs.frame = CGRect(x: CGFloat(indexPath.item) * headerWidth + timeWidth, y: self.collectionView!.contentOffset.y, width: headerWidth - timeWidth, height: headerHeight)
+            attrs.frame = CGRect(x: CGFloat(indexPath.item) * self.headerWidth + self.timeWidth, y: self.collectionView!.contentOffset.y, width: self.headerWidth - self.timeWidth, height: self.headerHeight)
             attrs.zIndex = 1024
             break
             
         case SVCalendarHeaderSection2:
-            attrs.frame = CGRect(x: 0.0, y: self.collectionView!.contentOffset.y + headerHeight, width: self.collectionView!.bounds.width, height: headerHeight)
+            attrs.frame = CGRect(x: 0.0, y: self.collectionView!.contentOffset.y + self.headerHeight, width: self.collectionView!.bounds.width, height: self.headerHeight)
             attrs.zIndex = 1023
             break
             
         case SVCalendarTimeSection:
-            attrs.frame = CGRect(x: 0.0, y: CGFloat(indexPath.row) * timeHeight + headerHeight, width: timeWidth, height: timeHeight)
-            attrs.zIndex = 1022
+            attrs.frame = CGRect(x: 0.0, y: CGFloat(indexPath.item) * self.timeHeight + self.headerHeight, width: self.timeWidth, height: self.timeHeight)
+            attrs.zIndex = 1022            
             break
             
         default:
@@ -308,12 +314,12 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     }
     
     fileprivate func headerView1Paths() -> [IndexPath] {
-        guard numberOfColumns != nil else {
+        guard self.numberOfColumns != nil else {
             return []
         }
         
         var indexPaths = [IndexPath]()
-        for i in 0 ..< numberOfColumns! {
+        for i in 0 ..< self.numberOfColumns! {
             indexPaths.append(IndexPath(item: i, section: 0))
         }
         
@@ -321,12 +327,12 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     }
     
     fileprivate func headerView2Paths(startIndex: Int) -> [IndexPath] {
-        guard numberOfColumns != nil else {
+        guard self.numberOfColumns != nil else {
             return []
         }
         
         var indexPaths = [IndexPath]()
-        for i in 0 ..< numberOfColumns! {
+        for i in 0 ..< self.numberOfColumns! {
             indexPaths.append(IndexPath(item: startIndex + i, section: 0))
         }
         
@@ -334,12 +340,12 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     }
     
     fileprivate func timeViewPaths() -> [IndexPath] {
-        guard numberOfRows != nil else {
+        guard self.numberOfRows != nil else {
             return []
         }
         
         var indexPaths = [IndexPath]()
-        for i in 0 ..< numberOfRows! {
+        for i in 0 ... self.numberOfRows! {
             indexPaths.append(IndexPath(row: i, section: 0))
         }
         

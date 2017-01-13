@@ -14,6 +14,11 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         return CAShapeLayer()
     }()
     
+    lazy var bottomLinePath = UIBezierPath()
+    lazy var bottomLineLayer: CAShapeLayer = {
+        return CAShapeLayer()
+    }()
+    
     override var bounds: CGRect {
         didSet {
             self.contentView.frame = self.bounds
@@ -28,10 +33,7 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     
     var style: SVCellStyle? {
         didSet {
-            self.backgroundColor = self.style?.background.normalColor
-            
-            self.selectionLayer.fillColor = self.style?.layer.normalColor.cgColor
-            self.selectionLayer.strokeColor = self.style?.layer.selectedColor.cgColor
+            self.backgroundColor = self.style?.background.normalColor                                    
         }
     }
     var value: String? 
@@ -40,26 +42,42 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     // MARK: - Cell LifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        configAppearance()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let selectionWidth = min(self.bounds.size.width, self.bounds.size.height) * 0.75
-        let selectionX = (self.bounds.size.width - selectionWidth) * 0.5
-        let selectionY = (self.bounds.size.height - selectionWidth) * 0.5
-        let selectionRect = CGRect(x: selectionX, y: selectionY, width: selectionWidth, height: selectionWidth)
-        
-        self.selectionLayer.frame = self.bounds
-        self.selectionLayer.path = UIBezierPath(roundedRect: selectionRect, cornerRadius: selectionRect.size.width * 0.5).cgPath
+        self.configAppearance()
     }
     
     // MARK: - Configurate Appearance
-    fileprivate func configAppearance() {
+    func configAppearance() {
         self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.contentView.autoresizesSubviews = true
+        self.contentView.autoresizesSubviews = true                
+    }
+    
+    func configBottomLineLayer() {
+        self.bottomLineLayer.opacity = 1.0
+        self.bottomLineLayer.isOpaque = true
         
-        self.contentView.layer.addSublayer(self.selectionLayer)
+        self.bottomLineLayer.fillRule = kCAFillRuleNonZero
+        
+        self.bottomLineLayer.lineJoin = kCALineJoinRound
+        self.bottomLineLayer.lineWidth = 0.5
+        
+        self.layer.addSublayer(self.bottomLineLayer)
+    }
+    
+    func updateBottomLinePath(_ bounds: CGRect) {
+        self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height - 2.0))
+        self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height - 2.0))
+        self.bottomLinePath.close()
+        
+        self.bottomLineLayer.path = self.bottomLinePath.cgPath
+    }
+    
+    func updateSelectionLayer(_ bounds: CGRect) {
+        let selectionWidth = min(bounds.size.width, bounds.size.height) * 0.75
+        let selectionX = (bounds.size.width - selectionWidth) * 0.5
+        let selectionY = (bounds.size.height - selectionWidth) * 0.5
+        let selectionRect = CGRect(x: selectionX, y: selectionY, width: selectionWidth, height: selectionWidth)
+        
+        self.selectionLayer.frame = bounds
+        self.selectionLayer.path = UIBezierPath(roundedRect: selectionRect, cornerRadius: selectionRect.size.width * 0.5).cgPath
     }
 }

@@ -11,18 +11,6 @@ import UIKit
 public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDelegate, SVCalendarNavigationDelegate {
     fileprivate let calendarView: SVCollectionView
     fileprivate let service: SVCalendarService
-    fileprivate var type: SVCalendarType = SVCalendarType.day {
-        didSet {
-            switch type {
-            case SVCalendarType.day: self.identifier = SVCalendarViewDayCell.identifier
-            case SVCalendarType.week: self.identifier = ""
-            case SVCalendarType.month: self.identifier = SVCalendarViewMonthCell.identifier
-            case SVCalendarType.quarter: self.identifier = ""
-            case SVCalendarType.year: self.identifier = ""
-            default: break
-            }
-        }
-    }
     
     fileprivate var switcherView: SVCalendarSwitcherView?
     fileprivate var navigationView: SVCalendarNavigationView!
@@ -35,6 +23,19 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     
     public weak var delegate: SVCalendarDelegate?
     public var selectedDate: Date?
+    
+    public var type: SVCalendarType = SVCalendarType.day {
+        didSet {
+            switch type {
+            case SVCalendarType.day: self.identifier = SVCalendarViewDayCell.identifier
+            case SVCalendarType.week: self.identifier = ""
+            case SVCalendarType.month: self.identifier = SVCalendarViewMonthCell.identifier
+            case SVCalendarType.quarter: self.identifier = ""
+            case SVCalendarType.year: self.identifier = ""
+            default: break
+            }
+        }
+    }
 
     // MARK: - Controller LifeCycle
     public init(config: SVConfiguration?) {

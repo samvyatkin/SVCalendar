@@ -21,6 +21,9 @@ class SVCalendarViewMonthCell: SVCalendarViewBaseCell {
                 self.valueLabel.textColor = self.style?.text.normalColor
                 self.valueLabel.font = self.style?.text.font
             }
+            
+            self.selectionLayer.fillColor = self.style?.layer.normalColor.cgColor
+            self.selectionLayer.strokeColor = self.style?.layer.selectedColor.cgColor                        
         }
     }
     
@@ -38,5 +41,15 @@ class SVCalendarViewMonthCell: SVCalendarViewBaseCell {
                 self.style?.text.normalColor :
                 self.style?.text.disabledColor
         }
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.updateSelectionLayer(self.bounds)
+    }
+    
+    override func configAppearance() {
+        super.configAppearance()        
+        self.contentView.layer.addSublayer(self.selectionLayer)
     }
 }

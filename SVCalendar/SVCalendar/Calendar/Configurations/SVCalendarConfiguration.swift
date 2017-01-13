@@ -91,7 +91,7 @@ public struct SVHeader2Configuration: SVConfigurationProtocol {
 
 public struct SVTimeConfiguration: SVConfigurationProtocol {
     public typealias SVStyleType = SVTimeStyle
-    public var style: SVStyleType = SVTimeStyle()
+    public var style: SVStyleType = SVTimeStyle()    
     public init() {}
 }
 
