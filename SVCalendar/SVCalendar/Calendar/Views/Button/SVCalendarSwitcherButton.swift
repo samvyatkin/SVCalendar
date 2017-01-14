@@ -91,8 +91,8 @@ class SVCalendarSwitcherButton: UIButton {
     }
     
     fileprivate func updateBottomLinePath(_ bounds: CGRect) {
-        self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height - 2.0))
-        self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height - 2.0))
+        self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height))
+        self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height))
         self.bottomLinePath.close()
         
         self.bottomLineLayer.path = self.bottomLinePath.cgPath
@@ -138,7 +138,7 @@ class SVCalendarSwitcherButton: UIButton {
         
         let groupAnimation = CAAnimationGroup()
         groupAnimation.animations = [positionAnimation, fadeAnimation]
-        groupAnimation.duration = 0.5
+        groupAnimation.duration = 0.35
         groupAnimation.isRemovedOnCompletion = false
         groupAnimation.fillMode = kCAFillModeBoth
         groupAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)

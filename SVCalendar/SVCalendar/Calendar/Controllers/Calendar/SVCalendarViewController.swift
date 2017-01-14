@@ -16,7 +16,14 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     fileprivate var navigationView: SVCalendarNavigationView!
     
     public let config: SVConfiguration
-    public var identifier: String = SVCalendarViewDayCell.identifier
+    public var identifier: String {
+        switch self.type {
+            case SVCalendarType.day: return SVCalendarViewDayCell.identifier
+            case SVCalendarType.week: return SVCalendarViewWeekCell.identifier
+            case SVCalendarType.month: return SVCalendarViewMonthCell.identifier
+            default: return SVCalendarViewDayCell.identifier
+        }
+    }
     
     public var dates = [SVCalendarDate]()
     public var headerTitles = [String]()
@@ -24,22 +31,19 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     public weak var delegate: SVCalendarDelegate?
     public var selectedDate: Date?
     
-    public var type: SVCalendarType = SVCalendarType.day {
+    public var type: SVCalendarType {
         didSet {
-            switch type {
-            case SVCalendarType.day: self.identifier = SVCalendarViewDayCell.identifier
-            case SVCalendarType.week: self.identifier = ""
-            case SVCalendarType.month: self.identifier = SVCalendarViewMonthCell.identifier
-            case SVCalendarType.quarter: self.identifier = ""
-            case SVCalendarType.year: self.identifier = ""
-            default: break
-            }
+            
+            self.updateCalendarLayout()
+            self.updateCalendarData()            
         }
     }
 
     // MARK: - Controller LifeCycle
     public init(config: SVConfiguration?) {
         self.config = config ?? SVConfiguration()
+        self.type = self.config.calendar.types.first ?? .day
+        
         self.calendarView = SVCollectionView(type: self.type,
                                              config: self.config.calendar)
         
@@ -84,16 +88,13 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
     }
     
     fileprivate func configCalendarView() {
-        self.type = self.config.calendar.types.first ?? SVCalendarType.day
-        self.calendarView.flowLayout.type = self.type
-        
         self.view.addSubview(self.calendarView)
         
         self.calendarView.dataSource = self
         self.calendarView.delegate = self
         
-        self.updateCalendarLayout(type: self.type)
-        self.updateCalendarData(type: self.type)
+        self.updateCalendarLayout()
+        self.updateCalendarData()
     }
     
     fileprivate func configCalendarSwitcher() {
@@ -185,28 +186,25 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         headerTitles.removeAll()
     }
     
-    fileprivate func updateCalendarData(type: SVCalendarType) {
+    fileprivate func updateCalendarData() {
         self.clearData()
         
-        self.dates = service.dates(for: type)
-        self.headerTitles = service.titles(for: type)
+        self.dates = service.dates(for: self.type)
+        self.headerTitles = service.titles(for: self.type)
         
         self.calendarView.reloadData()
     }
     
-    fileprivate func updateCalendarLayout(type: SVCalendarType) {
+    fileprivate func updateCalendarLayout() {
         self.calendarView.flowLayout.isHeader1Visible = self.config.calendar.isHeaderSection1Visible
         self.calendarView.flowLayout.isHeader2Visible = self.config.calendar.isHeaderSection2Visible        
         
-        self.calendarView.flowLayout.type = type
+        self.calendarView.flowLayout.type = self.type
     }
     
     // MARK: - Calendar Switcher
     public func didSelectType(_ type: SVCalendarType) {
         self.type = type
-        
-        self.updateCalendarLayout(type: type)
-        self.updateCalendarData(type: type)
         
         if self.config.calendar.isNavigationVisible {
            self.navigationView.updateNavigationDate(self.didChangeNavigationDate(direction: .none))
@@ -226,15 +224,13 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         switch self.type {
         case SVCalendarType.day: dateFormat = SVCalendarDateFormat.dayMonthYear
         case SVCalendarType.week: break
-        case SVCalendarType.month: break
-        case SVCalendarType.quarter: break
-        case SVCalendarType.year: break
+        case SVCalendarType.month: break        
         case SVCalendarType.all: break
         default: break
         }
         
         if direction != .none {
-            self.updateCalendarData(type: self.type)
+            self.updateCalendarData()
         }
         
         return self.service.updatedDate.convertWith(format: dateFormat)

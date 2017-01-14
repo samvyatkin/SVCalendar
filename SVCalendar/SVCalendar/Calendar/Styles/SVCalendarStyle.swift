@@ -172,14 +172,22 @@ public struct SVTimeStyle: SVStyleProtocol {
  */
 public struct SVCellStyle: SVStyleProtocol {
     public var background: SVBackground = SVBackground()
-    public var layer: SVBackground = SVBackground()
+    public var borderLayer: SVBackground = SVBackground()
+    public var bottomLineLayer: SVBackground = SVBackground()
+    public var selectionLayer: SVBackground = SVBackground()
     public var text: SVText = SVText()
     
     public init() {
         self.background.normalColor = UIColor.clear
         
-        self.layer.normalColor = UIColor.clear
-        self.layer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        self.borderLayer.normalColor = UIColor.clear
+        self.borderLayer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        
+        self.bottomLineLayer.normalColor = UIColor.clear
+        self.bottomLineLayer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
+        
+        self.selectionLayer.normalColor = UIColor.clear
+        self.selectionLayer.selectedColor = UIColor.rgb(242.0, 245.0, 248.0)
         
         self.text.font = UIFont.preferredFont(forTextStyle: .caption1)
         self.text.normalColor =  UIColor.rgb(221.0, 228.0, 237.0)

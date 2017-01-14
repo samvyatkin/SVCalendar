@@ -16,8 +16,8 @@ class SVCalendarViewDayCell: SVCalendarViewBaseCell {
     
     override var style: SVCellStyle? {
         didSet {
-            self.bottomLineLayer.fillColor = self.style?.layer.normalColor.cgColor
-            self.bottomLineLayer.strokeColor = self.style?.layer.selectedColor.cgColor
+            self.bottomLineLayer.fillColor = self.style?.bottomLineLayer.normalColor.cgColor
+            self.bottomLineLayer.strokeColor = self.style?.bottomLineLayer.selectedColor.cgColor
         }
     }
     

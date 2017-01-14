@@ -17,7 +17,7 @@ class SVCalendarHeaderView: UICollectionReusableView {
     
     var style: SVHeader1Style? {
         didSet {
-            self.backgroundColor = self.style?.background.normalColor
+            self.backgroundColor = self.style?.background.normalColor            
             
             if self.titleLabel != nil {
                 self.titleLabel.font = self.style?.text.font

@@ -16,11 +16,7 @@ class SVCollectionView: UICollectionView {
         return self.calendarLayout
     }
     
-    var type: SVCalendarType {
-        didSet {
-            
-        }
-    }
+    var type: SVCalendarType
     
     // MARK: - View LifeCycle
     init(type: SVCalendarType, config: SVCalendarConfiguration) {
@@ -48,6 +44,9 @@ class SVCollectionView: UICollectionView {
         
         self.register(UINib(nibName: SVCalendarViewMonthCell.identifier, bundle: SVCalendarConstants.bundle!),
                       forCellWithReuseIdentifier: SVCalendarViewMonthCell.identifier)
+        
+        self.register(UINib(nibName: SVCalendarViewWeekCell.identifier, bundle: SVCalendarConstants.bundle!),
+                      forCellWithReuseIdentifier: SVCalendarViewWeekCell.identifier)
         
         self.register(UINib(nibName: SVCalendarViewDayCell.identifier, bundle: SVCalendarConstants.bundle!),
                       forCellWithReuseIdentifier: SVCalendarViewDayCell.identifier)

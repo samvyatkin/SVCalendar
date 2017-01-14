@@ -77,27 +77,14 @@ class SVCalendarSwitcherView: UIView {
             case SVCalendarType.day:
                 title = "DAY"
                 index = 0
-                break
             
             case SVCalendarType.week:
                 title = "WEEK"
                 index = 1
-                break
                 
             case SVCalendarType.month:
                 title = "MONTH"
                 index = 2
-                break
-                
-            case SVCalendarType.quarter:
-                title = "QUARTER"
-                index = 3
-                break
-                
-            case SVCalendarType.year:
-                title = "YEAR"
-                index = 4
-                break
                 
             default:
                 break
@@ -119,29 +106,10 @@ class SVCalendarSwitcherView: UIView {
         
         var type: SVCalendarType
         switch sender.tag {
-        case 0:
-            type = .day
-            break
-            
-        case 1:
-            type = .week
-            break
-            
-        case 2:
-            type = .month
-            break
-            
-        case 3:
-            type = .quarter
-            break
-            
-        case 4:
-            type = .year
-            break
-            
-        default:
-            type = .month
-            break
+        case 0: type = .day                        
+        case 1: type = .week
+        case 2: type = .month
+        default: type = .month
         }
         
         self.delegate?.didSelectType(type)

@@ -22,8 +22,8 @@ class SVCalendarViewMonthCell: SVCalendarViewBaseCell {
                 self.valueLabel.font = self.style?.text.font
             }
             
-            self.selectionLayer.fillColor = self.style?.layer.normalColor.cgColor
-            self.selectionLayer.strokeColor = self.style?.layer.selectedColor.cgColor                        
+            self.selectionLayer.fillColor = self.style?.selectionLayer.normalColor.cgColor
+            self.selectionLayer.strokeColor = self.style?.selectionLayer.selectedColor.cgColor
         }
     }
     

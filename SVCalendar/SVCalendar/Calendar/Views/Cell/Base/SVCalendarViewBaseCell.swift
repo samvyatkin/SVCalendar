@@ -14,6 +14,11 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         return CAShapeLayer()
     }()
     
+    lazy var borderPath = UIBezierPath()
+    lazy var borderLayer: CAShapeLayer = {
+        return CAShapeLayer()
+    }()
+    
     lazy var bottomLinePath = UIBezierPath()
     lazy var bottomLineLayer: CAShapeLayer = {
         return CAShapeLayer()
@@ -51,26 +56,47 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         self.contentView.autoresizesSubviews = true                
     }
     
+    // MARK: - BottomLine Layer
     func configBottomLineLayer() {
         self.bottomLineLayer.opacity = 1.0
         self.bottomLineLayer.isOpaque = true
         
-        self.bottomLineLayer.fillRule = kCAFillRuleNonZero
-        
-        self.bottomLineLayer.lineJoin = kCALineJoinRound
+        self.bottomLineLayer.lineJoin = kCALineJoinMiter
         self.bottomLineLayer.lineWidth = 0.5
         
         self.layer.addSublayer(self.bottomLineLayer)
     }
     
     func updateBottomLinePath(_ bounds: CGRect) {
-        self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height - 2.0))
-        self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height - 2.0))
+        self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height))
+        self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height))
         self.bottomLinePath.close()
         
         self.bottomLineLayer.path = self.bottomLinePath.cgPath
     }
     
+    // MARK: - Border Layer
+    func configBorderLayer() {
+        self.borderLayer.opacity = 1.0
+        self.borderLayer.isOpaque = true
+        
+        self.borderLayer.lineJoin = kCALineJoinMiter
+        self.borderLayer.lineWidth = 0.5
+        
+        self.layer.addSublayer(self.borderLayer)
+    }
+    
+    func updateBorderPath(_ bounds: CGRect) {
+        self.borderPath.move(to: CGPoint(x: bounds.origin.x, y: bounds.origin.y))
+        self.borderPath.addLine(to: CGPoint(x: bounds.size.width, y: bounds.origin.y))
+        self.borderPath.addLine(to: CGPoint(x: bounds.size.width, y: bounds.size.height))
+        self.borderPath.addLine(to: CGPoint(x: bounds.origin.x, y: bounds.size.height))        
+        self.borderPath.close()
+        
+        self.borderLayer.path = self.borderPath.cgPath
+    }
+    
+    // MARK: - Selection Layer
     func updateSelectionLayer(_ bounds: CGRect) {
         let selectionWidth = min(bounds.size.width, bounds.size.height) * 0.75
         let selectionX = (bounds.size.width - selectionWidth) * 0.5

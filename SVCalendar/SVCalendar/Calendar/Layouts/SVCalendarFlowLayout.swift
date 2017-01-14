@@ -19,12 +19,12 @@ enum SVCalendarFlowLayoutDirection {
 class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     fileprivate var contentWidth: CGFloat {
         let insets = collectionView!.contentInset
-        return collectionView!.bounds.width - (insets.left + insets.right) - timeWidth
+        return collectionView!.bounds.width - (insets.left + insets.right) - self.timeWidth
     }
     
     fileprivate var contentHeight: CGFloat {
         let insets = collectionView!.contentInset
-        return collectionView!.bounds.height - (insets.top + insets.bottom) - headerHeight
+        return collectionView!.bounds.height - (insets.top + insets.bottom) - self.headerHeight
     }
     
     fileprivate let direction: SVCalendarFlowLayoutDirection!
@@ -54,47 +54,6 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
     
     var type: SVCalendarType {
         didSet {
-            self.isAutoResizeCell = true                        
-            self.isTimeVisible = false
-            self.cellPadding = 0.0
-            
-            self.headerHeight = 0.0
-            self.headerWidth = 0.0
-            
-            self.timeWidth = 0.0
-            self.timeHeight = 0.0
-            
-            self.numberOfRows = 6
-            self.numberOfColumns = 7
-            
-            switch type {
-            case SVCalendarType.day:
-                self.isTimeVisible = true
-                self.isHeader1Visible = false
-                
-                self.numberOfRows = 24
-                self.numberOfColumns = 1
-                self.timeWidth = 70.0
-                self.timeHeight = 60.0
-                self.columnHeight = self.timeHeight
-                
-            case SVCalendarType.week:
-                self.isTimeVisible = true
-                self.numberOfRows = 24
-                self.numberOfColumns = 7
-                self.timeWidth = 70.0
-                self.timeHeight = 60.0
-                self.columnHeight = self.timeHeight
-                
-            case SVCalendarType.month: break
-            case SVCalendarType.quarter: break
-            case SVCalendarType.year:
-                self.isHeader1Visible = false
-                self.isHeader2Visible = false
-            case SVCalendarType.all: break
-            default: break
-            }
-            
             self.updateLayout()
         }
     }
@@ -151,22 +110,25 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
                     }
                 }
                 else {
-                    if isAutoResizeCell {
-                        columnWidth = (contentWidth - CGFloat(numberOfColumns! - 1) * cellPadding) / CGFloat(numberOfColumns!)
-                        columnHeight = columnWidth
+                    if self.isAutoResizeCell {
+                        self.columnWidth = (self.contentWidth - CGFloat(self.numberOfColumns! - 1) * self.cellPadding) / CGFloat(self.numberOfColumns!)
                         
-                        if numberOfRows != nil {
-                            columnHeight = contentHeight / CGFloat(numberOfRows!)
+                        if self.columnHeight == 0 {
+                            self.columnHeight = self.columnWidth
+                            
+                            if self.numberOfRows != nil {
+                                self.columnHeight = self.contentHeight / CGFloat(self.numberOfRows!)
+                            }
                         }
                     }
                     
-                    columnContent = CGFloat(numberOfColumns!) * (columnWidth - 2 * cellPadding)
-                    columnOffset = (contentWidth - columnContent) / CGFloat(numberOfColumns! - 1)
+                    columnContent = CGFloat(self.numberOfColumns!) * (self.columnWidth - 2 * self.cellPadding)
+                    columnOffset = (self.contentWidth - columnContent) / CGFloat(self.numberOfColumns! - 1)
                 }
                 
                 for column in 0 ..< numberOfColumns! {
-                    xOffset += [columnWidth * CGFloat(column) + columnOffset + timeWidth]
-                    yOffset += [headerHeight]
+                    xOffset += [self.columnWidth * CGFloat(column) + self.columnOffset + self.timeWidth]
+                    yOffset += [self.headerHeight]
                 }
             }
             else {
@@ -288,7 +250,13 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
         
         switch elementKind {
         case SVCalendarHeaderSection1:
-            attrs.frame = CGRect(x: CGFloat(indexPath.item) * self.headerWidth + self.timeWidth, y: self.collectionView!.contentOffset.y, width: self.headerWidth - self.timeWidth, height: self.headerHeight)
+            attrs.frame = CGRect(x: CGFloat(indexPath.item) * self.headerWidth, y: self.collectionView!.contentOffset.y, width: self.headerWidth, height: self.headerHeight)
+            
+            if self.isTimeVisible {
+                self.headerWidth = self.contentWidth / CGFloat(self.numberOfColumns ?? 1)
+                attrs.frame = CGRect(x: CGFloat(indexPath.item) * self.headerWidth + self.timeWidth , y: self.collectionView!.contentOffset.y, width: self.headerWidth, height: self.headerHeight)
+            }
+            
             attrs.zIndex = 1024
             break
             
@@ -309,13 +277,52 @@ class SVCalendarFlowLayout: UICollectionViewFlowLayout {
         return attrs
     }
     
-    // MARK: - Layout Methods    
-    func updateLayout() {
+    // MARK: - Layout Methods
+    fileprivate func updateLayout() {
         self.width = 0.0
         self.height = 0.0
         
+        self.isAutoResizeCell = true
+        self.isTimeVisible = false
+        self.cellPadding = 0.0
+        
+        self.headerHeight = 0.0
+        self.headerWidth = 0.0
+        
+        self.timeWidth = 0.0
+        self.timeHeight = 0.0
+        
+        self.columnWidth = 0.0
+        self.columnHeight = 0.0
+        
+        self.numberOfRows = 6
+        self.numberOfColumns = 7
+        
+        switch self.type {
+        case SVCalendarType.day:
+            self.isTimeVisible = true
+            self.isHeader1Visible = false
+            
+            self.numberOfRows = 24
+            self.numberOfColumns = 1
+            
+            self.columnHeight = 50
+            
+        case SVCalendarType.week:
+            self.isTimeVisible = true
+            
+            self.numberOfRows = 24
+            self.numberOfColumns = 7
+            
+            self.columnHeight = 50
+            
+        case SVCalendarType.month: break
+        case SVCalendarType.all: break
+        default: break
+        }
+        
         self.cache.removeAll()
-        self.invalidateLayout()        
+        self.invalidateLayout()
     }
     
     fileprivate func headerView1Paths() -> [IndexPath] {

@@ -11,6 +11,8 @@
 		2241DC161E283FD70046CBB7 /* SVCalendarViewMonthCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2241DC141E283FD70046CBB7 /* SVCalendarViewMonthCell.xib */; };
 		2241DC191E28442E0046CBB7 /* SVCalendarViewDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2241DC171E28442E0046CBB7 /* SVCalendarViewDayCell.swift */; };
 		2241DC1A1E28442E0046CBB7 /* SVCalendarViewDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2241DC181E28442E0046CBB7 /* SVCalendarViewDayCell.xib */; };
+		225A210C1E2A42D7005B0E84 /* SVCalendarViewWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225A210A1E2A42D7005B0E84 /* SVCalendarViewWeekCell.swift */; };
+		225A210D1E2A42D7005B0E84 /* SVCalendarViewWeekCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 225A210B1E2A42D7005B0E84 /* SVCalendarViewWeekCell.xib */; };
 		22813BCA1E2571860038436E /* SVCalendarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22813BC91E2571860038436E /* SVCalendarConstants.swift */; };
 		2283115B1E1ECAD2005CC4F4 /* SVCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = 228311591E1ECAD2005CC4F4 /* SVCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		228311651E1ECB5C005CC4F4 /* SVCalendarComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228311641E1ECB5C005CC4F4 /* SVCalendarComponents.swift */; };
@@ -57,6 +59,8 @@
 		2241DC141E283FD70046CBB7 /* SVCalendarViewMonthCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCalendarViewMonthCell.xib; path = Calendar/Views/Cell/Month/SVCalendarViewMonthCell.xib; sourceTree = "<group>"; };
 		2241DC171E28442E0046CBB7 /* SVCalendarViewDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVCalendarViewDayCell.swift; path = Calendar/Views/Cell/Day/SVCalendarViewDayCell.swift; sourceTree = "<group>"; };
 		2241DC181E28442E0046CBB7 /* SVCalendarViewDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCalendarViewDayCell.xib; path = Calendar/Views/Cell/Day/SVCalendarViewDayCell.xib; sourceTree = "<group>"; };
+		225A210A1E2A42D7005B0E84 /* SVCalendarViewWeekCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVCalendarViewWeekCell.swift; path = Calendar/Views/Cell/Week/SVCalendarViewWeekCell.swift; sourceTree = "<group>"; };
+		225A210B1E2A42D7005B0E84 /* SVCalendarViewWeekCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SVCalendarViewWeekCell.xib; path = Calendar/Views/Cell/Week/SVCalendarViewWeekCell.xib; sourceTree = "<group>"; };
 		22813BC91E2571860038436E /* SVCalendarConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVCalendarConstants.swift; path = Calendar/Constants/SVCalendarConstants.swift; sourceTree = "<group>"; };
 		228311561E1ECAD2005CC4F4 /* SVCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SVCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		228311591E1ECAD2005CC4F4 /* SVCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SVCalendar.h; sourceTree = "<group>"; };
@@ -112,6 +116,15 @@
 				2241DC141E283FD70046CBB7 /* SVCalendarViewMonthCell.xib */,
 			);
 			name = Month;
+			sourceTree = "<group>";
+		};
+		225A21091E2A42A3005B0E84 /* Week */ = {
+			isa = PBXGroup;
+			children = (
+				225A210A1E2A42D7005B0E84 /* SVCalendarViewWeekCell.swift */,
+				225A210B1E2A42D7005B0E84 /* SVCalendarViewWeekCell.xib */,
+			);
+			name = Week;
 			sourceTree = "<group>";
 		};
 		22813BC81E2571520038436E /* Constants */ = {
@@ -276,6 +289,7 @@
 			children = (
 				228311941E1ECCE6005CC4F4 /* Base */,
 				2241DC121E283DB90046CBB7 /* Month */,
+				225A21091E2A42A3005B0E84 /* Week */,
 				2241DC111E283DB10046CBB7 /* Day */,
 			);
 			name = Cell;
@@ -406,6 +420,7 @@
 				228311A21E1ECD05005CC4F4 /* SVCalendarTimeView.xib in Resources */,
 				228311A01E1ECD05005CC4F4 /* SVCalendarHeaderView.xib in Resources */,
 				228311761E1ECC18005CC4F4 /* SVCalendarNavigationView.xib in Resources */,
+				225A210D1E2A42D7005B0E84 /* SVCalendarViewWeekCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +434,7 @@
 				2283116F1E1ECBFA005CC4F4 /* SVCalendarViewController.swift in Sources */,
 				2283119A1E1ECCF9005CC4F4 /* SVCalendarSwitcherButton.swift in Sources */,
 				228311931E1ECCD7005CC4F4 /* SVCollectionView.swift in Sources */,
+				225A210C1E2A42D7005B0E84 /* SVCalendarViewWeekCell.swift in Sources */,
 				228311751E1ECC18005CC4F4 /* SVCalendarNavigationView.swift in Sources */,
 				22813BCA1E2571860038436E /* SVCalendarConstants.swift in Sources */,
 				228311721E1ECC0B005CC4F4 /* SVCalendarSwitcherView.swift in Sources */,

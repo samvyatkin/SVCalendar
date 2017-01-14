@@ -88,69 +88,49 @@ class SVCalendarService {
     }
     
     fileprivate func updateCalendarDates() {
-        if types.contains(SVCalendarType.all) {
-            calendarDates[.year] = configYearDates()
-            calendarDates[.quarter] = configQuarterDates()
-            calendarDates[.month] = configMonthDates()
-            calendarDates[.week] = configWeekDates()
-            calendarDates[.day] = configDayDates()
+        if self.types.contains(SVCalendarType.all) {
+            self.calendarDates[.month] = self.configMonthDates()
+            self.calendarDates[.week] = self.configWeekDates()
+            self.calendarDates[.day] = self.configDayDates(nil)
             return
         }
         
-        if types.contains(SVCalendarType.year) {
-            calendarDates[.year] = configYearDates()
+        if self.types.contains(SVCalendarType.month) {
+            self.calendarDates[.month] = self.configMonthDates()
         }
         
-        if types.contains(SVCalendarType.quarter) {
-            calendarDates[.quarter] = configQuarterDates()
+        if self.types.contains(SVCalendarType.week) {
+            self.calendarDates[.week] = self.configWeekDates()
         }
         
-        if types.contains(SVCalendarType.month) {
-            calendarDates[.month] = configMonthDates()
-        }
-        
-        if types.contains(SVCalendarType.week) {
-            calendarDates[.week] = configWeekDates()
-        }
-        
-        if types.contains(SVCalendarType.day) {
-            calendarDates[.day] = configDayDates()
+        if self.types.contains(SVCalendarType.day) {
+            self.calendarDates[.day] = self.configDayDates(nil)
         }
     }
     
     func updateCaledarTitles() {
-        if types.contains(SVCalendarType.all) {
-            calendarTitles[.year] = calendar.shortMonthSymbols
-            calendarTitles[.quarter] = calendar.shortQuarterSymbols
-            calendarTitles[.month] = calendar.shortWeekdaySymbols
-            calendarTitles[.week] = calendar.shortWeekdaySymbols
-            calendarTitles[.day] = calendar.shortWeekdaySymbols
+        if self.types.contains(SVCalendarType.all) {
+            self.calendarTitles[.month] = self.calendar.shortWeekdaySymbols
+            self.calendarTitles[.week] = self.calendar.shortWeekdaySymbols
+            self.calendarTitles[.day] = self.calendar.shortWeekdaySymbols
             return
         }
         
-        if types.contains(SVCalendarType.quarter) {
-            calendarTitles[.year] = calendar.shortMonthSymbols
+        if self.types.contains(SVCalendarType.month) {
+            self.calendarTitles[.month] = self.calendar.shortWeekdaySymbols
         }
         
-        if types.contains(SVCalendarType.quarter) {
-            calendarTitles[.quarter] = calendar.shortMonthSymbols
+        if self.types.contains(SVCalendarType.week) {
+            self.calendarTitles[.week] = self.calendar.shortWeekdaySymbols
         }
         
-        if types.contains(SVCalendarType.month) {
-            calendarTitles[.month] = calendar.shortWeekdaySymbols
-        }
-        
-        if types.contains(SVCalendarType.week) {
-            calendarTitles[.week] = calendar.shortWeekdaySymbols
-        }
-        
-        if types.contains(SVCalendarType.day) {
-            calendarTitles[.day] = calendar.shortWeekdaySymbols
+        if self.types.contains(SVCalendarType.day) {
+            self.calendarTitles[.day] = self.calendar.shortWeekdaySymbols
         }
     }
     
     func updateDate(for calendarType: SVCalendarType, isDateIncrease: Bool) {
-        var dateComponents = calendar.dateComponents(components, from: visibleDate)
+        var dateComponents = self.calendar.dateComponents(self.components, from: self.visibleDate)
         dateComponents.hour = 0
         dateComponents.minute = 0
         dateComponents.second = 0
@@ -158,30 +138,18 @@ class SVCalendarService {
         let sign = isDateIncrease ? 1 : -1
         
         switch calendarType {
-        case SVCalendarType.day:
-            dateComponents.day! += sign
-            break
-        case SVCalendarType.week:
-            dateComponents.day! += sign * 7
-            break
-        case SVCalendarType.month:
-            dateComponents.month! += sign
-            break
-        case SVCalendarType.quarter:
-            dateComponents.quarter! += sign
-            break
-        case SVCalendarType.year:
-            dateComponents.year! += sign
-            break
+        case SVCalendarType.day: dateComponents.day! += sign
+        case SVCalendarType.week: dateComponents.day! += sign * 7
+        case SVCalendarType.month: dateComponents.month! += sign
         default:
             break
         }
         
-        visibleDate = calendar.date(from: dateComponents)!
+        self.visibleDate = calendar.date(from: dateComponents)!
         
-        removeAllDates()
-        updateCalendarDates()
-        updateCaledarTitles()
+        self.removeAllDates()
+        self.updateCalendarDates()
+        self.updateCaledarTitles()
     }
     
     func dates(for type: SVCalendarType) -> [SVCalendarDate] {
@@ -205,89 +173,8 @@ class SVCalendarService {
     }
     
     fileprivate func removeAllDates() {
-        calendarDates.removeAll()
-        calendarTitles.removeAll()
-    }
-    
-    // MARK: - Year Dates
-    fileprivate func yearDateComponents(from date: Date, for year: Int) -> DateComponents {
-        var dateComponents = calendar.dateComponents(components, from: date)
-        dateComponents.year = year
-        dateComponents.month = 1
-        dateComponents.weekday = calendar.firstWeekday
-        dateComponents.day = 1
-        dateComponents.hour = 0
-        dateComponents.minute = 0
-        dateComponents.second = 0
-        
-        return dateComponents
-    }
-    
-    fileprivate func configYearDates() -> [SVCalendarDate] {
-        var beginYearDate = calendar.date(from: yearDateComponents(from: visibleDate,
-                                                                   for: self.minYear))
-        
-        let endYearDate = calendar.date(from: yearDateComponents(from: visibleDate,
-                                                                 for: self.maxYear + 1))
-        
-        var dates = [SVCalendarDate]()
-        while beginYearDate!.compare(endYearDate!) != .orderedSame {
-            var calendarComponents = calendar.dateComponents(components, from: beginYearDate!)
-            let title = "\(calendarComponents.year!)"
-            let isCurrent = calendarComponents.year! == currentComponents.year!
-            
-            dates.append(SVCalendarDate(isEnabled: true,
-                                        isCurrent: isCurrent,
-                                        isWeekend: false,
-                                        title: title,
-                                        value: beginYearDate!,
-                                        type: .year))
-            
-            calendarComponents.year! += 1
-            beginYearDate = calendar.date(from: calendarComponents)
-        }
-        
-        return dates
-    }
-    
-    // MARK: - Quarter Dates
-    fileprivate func quarterDateComponents(from date: Date) -> DateComponents {
-        var dateComponents = calendar.dateComponents(components, from: date)
-        dateComponents.month = 1
-        dateComponents.weekday = calendar.firstWeekday
-        dateComponents.day = 1
-        dateComponents.hour = 0
-        dateComponents.minute = 0
-        dateComponents.second = 0
-        
-        return dateComponents
-    }
-    
-    fileprivate func configQuarterDates() -> [SVCalendarDate] {
-        var quarterDateComponents = self.quarterDateComponents(from: visibleDate)
-        var beginQuarterDate = calendar.date(from: quarterDateComponents)
-        
-        quarterDateComponents.month = 13
-        let endQuarterDate = calendar.date(from: quarterDateComponents)
-        
-        var dates = [SVCalendarDate]()
-        while beginQuarterDate!.compare(endQuarterDate!) != .orderedSame {
-            var calendarComponents = calendar.dateComponents(components, from: beginQuarterDate!)
-            let title = "\(calendarComponents.quarter!)"
-            let isCurrent = calendarComponents.quarter! == currentComponents.quarter!
-            
-            dates.append(SVCalendarDate(isEnabled: true,
-                                        isCurrent: isCurrent,
-                                        isWeekend: false,
-                                        title: title,
-                                        value: beginQuarterDate!,
-                                        type: .quarter))
-            
-            calendarComponents.month! += 1
-            beginQuarterDate = calendar.date(from: calendarComponents)
-        }
-        
-        return dates
+        self.calendarDates.removeAll()
+        self.calendarTitles.removeAll()
     }
     
     // MARK: - Months Dates
@@ -418,12 +305,16 @@ class SVCalendarService {
             let isCurrent = calendarComponents.day! == currentComponents.day!
             let isWeekend = calendarComponents.weekday! == SVCalendarWeekDays.sat.rawValue || calendarComponents.weekday! == SVCalendarWeekDays.sun.rawValue
             
-            dates.append(SVCalendarDate(isEnabled: isEnabled,
-                                        isCurrent: isCurrent,
-                                        isWeekend: isWeekend,
-                                        title: title,
-                                        value: beginWeekDate!,
-                                        type: .week))
+            
+            let dayDates = self.configDayDates(beginWeekDate)
+            for dayDate in dayDates {
+                dates.append(SVCalendarDate(isEnabled: isEnabled,
+                                            isCurrent: isCurrent,
+                                            isWeekend: isWeekend,
+                                            title: title,
+                                            value: dayDate.value,
+                                            type: .week))
+            }
             
             calendarComponents.day! += 1
             beginWeekDate = calendar.date(from: calendarComponents)
@@ -472,13 +363,13 @@ class SVCalendarService {
         return calendar.date(from: dateComponents)!
     }
     
-    fileprivate func configDayDates() -> [SVCalendarDate] {
-        var beginDayDate = calendar.startOfDay(for: visibleDate)
+    fileprivate func configDayDates(_ sourceDate: Date?) -> [SVCalendarDate] {
+        var beginDayDate = self.calendar.startOfDay(for: sourceDate ?? self.visibleDate)
         let endDayDate = self.endDayDate(from: beginDayDate)
         
         var dates = [SVCalendarDate]()
         while beginDayDate.compare(endDayDate) != .orderedDescending {
-            var calendarComponents = calendar.dateComponents(components, from: beginDayDate)
+            var calendarComponents = self.calendar.dateComponents(components, from: beginDayDate)
             let title = "\(calendarComponents.hour!)"
             let isEnabled = calendarComponents.hour! >= currentComponents.hour! || calendarComponents.day! > currentComponents.day!
             let isCurrent = calendarComponents.hour! == currentComponents.hour!
@@ -492,7 +383,7 @@ class SVCalendarService {
                                         type: .day))
             
             calendarComponents.hour! += 1
-            beginDayDate = calendar.date(from: calendarComponents)!
+            beginDayDate = self.calendar.date(from: calendarComponents)!
         }
         
         return dates

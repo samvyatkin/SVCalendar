@@ -22,10 +22,8 @@ public struct SVCalendarType: OptionSet, Hashable {
     static let day = SVCalendarType(rawValue: 1 << 0)
     static let week = SVCalendarType(rawValue: 1 << 1)
     static let month = SVCalendarType(rawValue: 1 << 2)
-    static let quarter = SVCalendarType(rawValue: 1 << 3)
-    static let year = SVCalendarType(rawValue: 1 << 4)
     
-    static let defaultTypes = [SVCalendarType.day, SVCalendarType.month]
+    static let defaultTypes = [SVCalendarType.day, SVCalendarType.week, SVCalendarType.month]
 }
 
 /**
