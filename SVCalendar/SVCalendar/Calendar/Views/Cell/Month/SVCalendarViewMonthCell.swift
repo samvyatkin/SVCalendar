@@ -45,7 +45,7 @@ class SVCalendarViewMonthCell: SVCalendarViewBaseCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.updateSelectionLayer(self.bounds)
+        self.updateSelectionPath(self.bounds)
     }
     
     override func configAppearance() {

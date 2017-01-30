@@ -18,16 +18,26 @@ class SVCalendarViewWeekCell: SVCalendarViewBaseCell {
         didSet {
             self.borderLayer.fillColor = self.style?.borderLayer.normalColor.cgColor
             self.borderLayer.strokeColor = self.style?.borderLayer.selectedColor.cgColor
+            
+            self.backgroundLayer.fillColor = UIColor.white.cgColor            
+        }
+    }
+    
+    override var isWeekend: Bool {
+        didSet {
+            self.backgroundLayer.isHidden = !isWeekend
         }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.updateBorderPath(self.bounds)
+        self.updateBackgroundPath(self.bounds)
     }
     
     override func configAppearance() {
-        super.configAppearance()
+        super.configAppearance()        
         self.contentView.layer.addSublayer(self.borderLayer)
+        self.contentView.layer.addSublayer(self.backgroundLayer)
     }
 }

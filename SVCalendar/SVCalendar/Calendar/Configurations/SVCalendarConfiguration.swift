@@ -45,11 +45,9 @@ public struct SVContainerConfiguration: SVConfigurationProtocol {
 
 public struct SVCalendarConfiguration: SVConfigurationProtocol {
     public typealias SVStyleType = SVCalendarStyle
-    public var style: SVStyleType = SVCalendarStyle()
     
-    public var types: [SVCalendarType] {
-        return SVCalendarType.defaultTypes
-    }
+    public var style: SVStyleType = SVCalendarStyle()
+    public var types = SVCalendarType.defaultTypes
     
     public var minYear: Int = 2000
     public var maxYear: Int = 2020

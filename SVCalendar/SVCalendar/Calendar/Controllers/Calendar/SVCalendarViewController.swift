@@ -25,7 +25,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         }
     }
     
-    public var dates = [SVCalendarDate]()
+    public var dates = Array<[SVCalendarDate]>()
     public var headerTitles = [String]()
     
     public weak var delegate: SVCalendarDelegate?
@@ -111,7 +111,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         if self.config.calendar.isNavigationVisible {
             self.navigationView = SVCalendarNavigationView.navigation(delegate: self,
                                                                       style: self.config.navigation.style,
-                                                                      title: self.service.updatedDate.convertWith(format: SVCalendarDateFormat.monthYear))            
+                                                                      title: "")
             self.view.addSubview(self.navigationView)
             self.navigationView.updateNavigationDate(self.didChangeNavigationDate(direction: .none))
         }
@@ -223,7 +223,7 @@ public class SVCalendarViewController: UIViewController, SVCalendarSwitcherDeleg
         var dateFormat = SVCalendarDateFormat.monthYear
         switch self.type {
         case SVCalendarType.day: dateFormat = SVCalendarDateFormat.dayMonthYear
-        case SVCalendarType.week: break
+        case SVCalendarType.week: dateFormat = SVCalendarDateFormat.dayMonthYear
         case SVCalendarType.month: break        
         case SVCalendarType.all: break
         default: break

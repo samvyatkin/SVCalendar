@@ -46,10 +46,6 @@ class SVCalendarSwitcherButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         self.updateBottomLinePath(self.bounds)

@@ -17,7 +17,11 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     }
     
      public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dates.count
+        if self.type == .week {
+            return 7 * 24
+        }
+        
+        return 1 * self.dates[0].count
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -76,10 +80,22 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier, for: indexPath) as! SVCalendarViewBaseCell
-        let model = self.dates[indexPath.item]
+        var model: SVCalendarDate
+        
+        if self.type == .week {
+            let numberOfDays = 7
+            let currentRow: Int = indexPath.item / numberOfDays
+            let currentColumn = indexPath.item - numberOfDays * currentRow
+            
+            model = self.dates[currentRow][currentColumn]
+        }
+        else {
+            model = self.dates[0][indexPath.item]
+        }
         
         cell.style = self.config.cell.style
         cell.value = model.title
+        cell.isWeekend = model.isWeekend
         cell.isEnabled = model.isEnabled
         cell.isSelected = !(self.selectedDate == nil
             || self.selectedDate!.compare(model.value) != .orderedSame)
@@ -90,17 +106,28 @@ extension SVCalendarViewController: UICollectionViewDataSource, UICollectionView
     // MARK: - Collection Delegate
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier, for: indexPath) as! SVCalendarViewBaseCell
-        let model = dates[indexPath.item]
+        var model: SVCalendarDate
+        
+        if self.type == .week {
+            let numberOfDays = 7
+            let currentRow: Int = indexPath.item / numberOfDays
+            let currentColumn = indexPath.item - numberOfDays * currentRow
+            
+            model = self.dates[currentRow][currentColumn]
+        }
+        else {
+            model = self.dates[0][indexPath.item]
+        }
         
         cell.isSelected = true
         
         if self.selectedDate != nil {
-            if let index = dates.index(where: { $0.value.compare(self.selectedDate!) == .orderedSame }) {
-                let selectedIndex = IndexPath(item: index, section: 0)
-                let selectedCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier,
-                                                                      for: selectedIndex) as! SVCalendarViewBaseCell
-                selectedCell.isSelected = false
-            }
+//            if let index = dates.index(where: { $0.value.compare(self.selectedDate!) == .orderedSame }) {
+//                let selectedIndex = IndexPath(item: index, section: 0)
+//                let selectedCell = collectionView.dequeueReusableCell(withReuseIdentifier: self.identifier,
+//                                                                      for: selectedIndex) as! SVCalendarViewBaseCell
+//                selectedCell.isSelected = false
+//            }
         }
         
         self.selectedDate = model.value

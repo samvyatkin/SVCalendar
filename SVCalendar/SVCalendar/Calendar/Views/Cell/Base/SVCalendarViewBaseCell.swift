@@ -14,14 +14,39 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         return CAShapeLayer()
     }()
     
+    lazy var backgroundLayer: CAShapeLayer = {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.opacity = 0.35
+        shapeLayer.isOpaque = true
+        
+        shapeLayer.lineJoin = kCALineCapSquare
+        shapeLayer.lineWidth = 0.0
+        
+        return shapeLayer
+    }()
+    
     lazy var borderPath = UIBezierPath()
     lazy var borderLayer: CAShapeLayer = {
-        return CAShapeLayer()
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.opacity = 0.45
+        shapeLayer.isOpaque = true
+        
+        shapeLayer.lineJoin = kCALineJoinMiter
+        shapeLayer.lineWidth = 0.5
+        
+        return shapeLayer
     }()
     
     lazy var bottomLinePath = UIBezierPath()
     lazy var bottomLineLayer: CAShapeLayer = {
-        return CAShapeLayer()
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.opacity = 0.45
+        shapeLayer.isOpaque = true
+        
+        shapeLayer.lineJoin = kCALineJoinMiter
+        shapeLayer.lineWidth = 0.5
+        
+        return shapeLayer
     }()
     
     override var bounds: CGRect {
@@ -43,6 +68,7 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     }
     var value: String? 
     var isEnabled: Bool = true
+    var isWeekend: Bool = false
     
     // MARK: - Cell LifeCycle
     override func awakeFromNib() {
@@ -56,17 +82,6 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         self.contentView.autoresizesSubviews = true                
     }
     
-    // MARK: - BottomLine Layer
-    func configBottomLineLayer() {
-        self.bottomLineLayer.opacity = 1.0
-        self.bottomLineLayer.isOpaque = true
-        
-        self.bottomLineLayer.lineJoin = kCALineJoinMiter
-        self.bottomLineLayer.lineWidth = 0.5
-        
-        self.layer.addSublayer(self.bottomLineLayer)
-    }
-    
     func updateBottomLinePath(_ bounds: CGRect) {
         self.bottomLinePath.move(to: CGPoint(x: bounds.origin.x + 6.5, y: bounds.size.height))
         self.bottomLinePath.addLine(to: CGPoint(x: bounds.size.width - 6.5, y: bounds.size.height))
@@ -75,15 +90,8 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
         self.bottomLineLayer.path = self.bottomLinePath.cgPath
     }
     
-    // MARK: - Border Layer
-    func configBorderLayer() {
-        self.borderLayer.opacity = 1.0
-        self.borderLayer.isOpaque = true
-        
-        self.borderLayer.lineJoin = kCALineJoinMiter
-        self.borderLayer.lineWidth = 0.5
-        
-        self.layer.addSublayer(self.borderLayer)
+    func updateBackgroundPath(_ bounds: CGRect) {
+        self.backgroundLayer.path = UIBezierPath(rect: bounds).cgPath
     }
     
     func updateBorderPath(_ bounds: CGRect) {
@@ -97,7 +105,7 @@ class SVCalendarViewBaseCell: UICollectionViewCell {
     }
     
     // MARK: - Selection Layer
-    func updateSelectionLayer(_ bounds: CGRect) {
+    func updateSelectionPath(_ bounds: CGRect) {
         let selectionWidth = min(bounds.size.width, bounds.size.height) * 0.75
         let selectionX = (bounds.size.width - selectionWidth) * 0.5
         let selectionY = (bounds.size.height - selectionWidth) * 0.5

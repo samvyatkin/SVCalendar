@@ -59,7 +59,7 @@ class SVCalendarService {
     }
     
     fileprivate var visibleDate: Date!
-    fileprivate var calendarDates = [SVCalendarType : [SVCalendarDate]]()
+    fileprivate var calendarDates = [SVCalendarType : Array<[SVCalendarDate]>]()
     fileprivate var calendarTitles = [SVCalendarType : [String]]()
     
     var updatedDate: Date {
@@ -152,8 +152,8 @@ class SVCalendarService {
         self.updateCaledarTitles()
     }
     
-    func dates(for type: SVCalendarType) -> [SVCalendarDate] {
-        guard let dates = calendarDates[type] else {
+    func dates(for type: SVCalendarType) -> Array<[SVCalendarDate]> {
+        guard let dates = self.calendarDates[type] else {
             return []
         }
         
@@ -161,7 +161,7 @@ class SVCalendarService {
     }
     
     func titles(for type: SVCalendarType) -> [String] {
-        guard let titles = calendarTitles[type] else {
+        guard let titles = self.calendarTitles[type] else {
             return []
         }
         
@@ -198,7 +198,7 @@ class SVCalendarService {
         return calendar.date(from: sourceComponents)!
     }
     
-    fileprivate func configMonthDates() -> [SVCalendarDate] {
+    fileprivate func configMonthDates() -> Array<[SVCalendarDate]> {
         let beginMonthDate = monthBeginDate(from: visibleDate)
         let endMonthDate = monthEndDate(from: beginMonthDate)
         
@@ -260,7 +260,7 @@ class SVCalendarService {
             startDate = calendar.date(from: calendarComponents)            
         }
         
-        return dates
+        return [dates]
     }
     
     // MARK: - Week Dates
@@ -273,7 +273,7 @@ class SVCalendarService {
         return dateComponents
     }
     
-    fileprivate func configWeekDates() -> [SVCalendarDate] {
+    fileprivate func configWeekDates() -> Array<[SVCalendarDate]> {
         let dateComponents = weekDateComponents(from: visibleDate)
         let daysInWeek = 7
         
@@ -297,30 +297,37 @@ class SVCalendarService {
             return []
         }
         
-        var dates = [SVCalendarDate]()
+        var weekDates = [[SVCalendarDate]]()
+        
         while beginWeekDate!.compare(endWeekDate!) != .orderedSame {
             var calendarComponents = calendar.dateComponents(components, from: beginWeekDate!)
-            let title = "\(calendarComponents.day!)"
             let isEnabled = (beginWeekDate?.compare(beginMonthDate) == .orderedDescending || beginWeekDate?.compare(beginMonthDate) == .orderedSame) && (beginWeekDate?.compare(endMonthDate) == .orderedAscending || beginWeekDate?.compare(endMonthDate) == .orderedSame)
             let isCurrent = calendarComponents.day! == currentComponents.day!
             let isWeekend = calendarComponents.weekday! == SVCalendarWeekDays.sat.rawValue || calendarComponents.weekday! == SVCalendarWeekDays.sun.rawValue
-            
-            
-            let dayDates = self.configDayDates(beginWeekDate)
-            for dayDate in dayDates {
-                dates.append(SVCalendarDate(isEnabled: isEnabled,
-                                            isCurrent: isCurrent,
-                                            isWeekend: isWeekend,
-                                            title: title,
-                                            value: dayDate.value,
-                                            type: .week))
+                        
+            if let dayDates = self.configDayDates(beginWeekDate).first {
+                for (index, value) in dayDates.enumerated() {
+                    let date = SVCalendarDate(isEnabled: isEnabled,
+                                              isCurrent: isCurrent,
+                                              isWeekend: isWeekend,
+                                              title: value.title,
+                                              value: value.value,
+                                              type: .week)
+                    
+                    if index > weekDates.count - 1 {                        
+                        weekDates.append([date])
+                    }
+                    else {
+                        weekDates[index].append(date)
+                    }                                        
+                }
             }
             
             calendarComponents.day! += 1
             beginWeekDate = calendar.date(from: calendarComponents)
         }
         
-        return dates
+        return weekDates
     }
     
     // MARK: - Day Dates
@@ -363,7 +370,7 @@ class SVCalendarService {
         return calendar.date(from: dateComponents)!
     }
     
-    fileprivate func configDayDates(_ sourceDate: Date?) -> [SVCalendarDate] {
+    fileprivate func configDayDates(_ sourceDate: Date?) -> Array<[SVCalendarDate]> {
         var beginDayDate = self.calendar.startOfDay(for: sourceDate ?? self.visibleDate)
         let endDayDate = self.endDayDate(from: beginDayDate)
         
@@ -386,6 +393,6 @@ class SVCalendarService {
             beginDayDate = self.calendar.date(from: calendarComponents)!
         }
         
-        return dates
+        return [dates]
     }
 }
