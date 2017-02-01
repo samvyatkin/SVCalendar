@@ -10,20 +10,28 @@
 
 # Installation
 1. In terminal go to your project's folder:
-   
-   > cd /User/Developer/YourProjectName
+
+   ```js
+    cd /User/Developer/YourProjectName 
+   ```
   
 2. If you haven't pod file, run command:
 
-   > pod init
+   ```js
+    pod init
+   ```
    
 3. Open your pod file and write: 
 
-   > pod 'SVCalendar', '~> <b>1.0.7</b>'
+   ```js
+    pod 'SVCalendar', '~> 1.0.7'
+   ```
    
 4. Save file and run command:
-
-   > pod install
+   
+   ```js
+    pod install
+   ```
 
 5. That's it!
 
