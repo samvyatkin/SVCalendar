@@ -36,8 +36,8 @@ public protocol SVStyleProtocol {
 }
 
 public struct SVBackground {
-    var normalColor: UIColor
-    var selectedColor: UIColor
+    public var normalColor: UIColor
+    public var selectedColor: UIColor
     
     init() {
         self.normalColor = UIColor.white
@@ -46,11 +46,11 @@ public struct SVBackground {
 }
 
 public struct SVText {
-    var font: UIFont
-    var normalColor: UIColor
-    var selectedColor: UIColor
-    var disabledColor: UIColor
-    var aligment: NSTextAlignment
+    public var font: UIFont
+    public var normalColor: UIColor
+    public var selectedColor: UIColor
+    public var disabledColor: UIColor
+    public var aligment: NSTextAlignment
     
     init() {
         self.font = UIFont.preferredFont(forTextStyle: .headline)

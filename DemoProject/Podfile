@@ -6,5 +6,5 @@ target 'DemoProject' do
   use_frameworks!
 
   # Pods for DemoProject      
-  pod 'SVCalendar', '~> 1.0.7'  
+  pod 'SVCalendar', '~> 1.0.10'  
 end

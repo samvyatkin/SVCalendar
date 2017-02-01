@@ -14,7 +14,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let calendar = SVCalendarViewController(config: nil)
+        var config = SVConfiguration()
+        config.calendar.isSwitcherVisible = true
+        config.calendar.isNavigationVisible = true
+        config.calendar.isHeaderSection1Visible = true
+        
+        let calendar = SVCalendarViewController(config: config)
         
         self.addChildViewController(calendar)
         self.view.addSubview(calendar.view)

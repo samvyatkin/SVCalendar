@@ -18,12 +18,12 @@ public struct SVCalendarType: OptionSet, Hashable {
         self.rawValue = rawValue
     }
     
-    static let all = SVCalendarType(rawValue: 0)
-    static let day = SVCalendarType(rawValue: 1 << 0)
-    static let week = SVCalendarType(rawValue: 1 << 1)
-    static let month = SVCalendarType(rawValue: 1 << 2)
+    public static let all = SVCalendarType(rawValue: 0)
+    public static let day = SVCalendarType(rawValue: 1 << 0)
+    public static let week = SVCalendarType(rawValue: 1 << 1)
+    public static let month = SVCalendarType(rawValue: 1 << 2)
     
-    static let defaultTypes = [SVCalendarType.day, SVCalendarType.week, SVCalendarType.month]
+    public static let defaultTypes = [SVCalendarType.day, SVCalendarType.week, SVCalendarType.month]
 }
 
 /**
