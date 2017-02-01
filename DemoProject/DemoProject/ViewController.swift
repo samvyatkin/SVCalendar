@@ -15,9 +15,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         var config = SVConfiguration()
-        config.calendar.isSwitcherVisible = true
+        // Show only month representation
+        config.calendar.types = [SVCalendarType.month]
+        
+        // Switcher between day, week, month representations
+        config.calendar.isSwitcherVisible = false
         config.calendar.isNavigationVisible = true
         config.calendar.isHeaderSection1Visible = true
+        
+        // Day, Week, Month navigation appearance
+        config.switcher.style.text.normalColor = UIColor.lightGray
+        config.switcher.style.text.selectedColor = UIColor.red
+        
+        // Calendar background appearance
+        config.container.style.background.normalColor = UIColor.white
+        
+        // Cell appearance
+        config.cell.style.text.normalColor = UIColor.darkGray
+        config.cell.style.text.disabledColor = UIColor.lightGray
+        config.cell.style.text.selectedColor = UIColor.red
+        
+        config.cell.style.selectionLayer.normalColor = UIColor.clear
+        config.cell.style.selectionLayer.selectedColor = UIColor.red
+        
+        config.cell.style.bottomLineLayer.normalColor = UIColor.darkGray
         
         let calendar = SVCalendarViewController(config: config)
         
