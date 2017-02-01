@@ -30,7 +30,7 @@
 3. Open your pod file and write: 
 
    ```js
-    pod 'SVCalendar', '~> 1.0.9'
+    pod 'SVCalendar', '~> 1.0.10'
    ```
    
 4. Save file and run command:
