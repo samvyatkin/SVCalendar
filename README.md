@@ -8,6 +8,12 @@
 
 # Features
 
+- [x] Switch between such representations as day, week, month
+- [x] Selection of current day in month representation
+- [x] Possibility to get selected date by user in month representation
+- [x] Possibility to change day, week, month
+- [x] Possibility to customize each component of calendar
+
 # Installation
 1. In terminal go to your project's folder:
 
